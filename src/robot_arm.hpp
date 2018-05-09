@@ -1,6 +1,7 @@
 #ifndef ROBOT_ARM_HPP
 #define ROBOT_ARM_HPP
 
+#include "swiftpro/"
 #include "wrap-hwlib.hpp"
 
 class robot_arm {
@@ -10,8 +11,7 @@ class robot_arm {
     hwlib::target::pin_out output_pin;
 
   public:
-    robot_arm(hwlib::target::pin_out output_pin) : output_pin(output_pin) {
-    }
+    robot_arm(hwlib::target::pin_out output_pin);
     void move(int coordinates[3]);
     void copy_data(int *array1, int *array2);
 };

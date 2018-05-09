@@ -1,5 +1,8 @@
 #include "robot_arm.hpp"
 
+robot_arm::robot_arm(hwlib::target::pin_out output_pin) : output_pin(output_pin) {
+}
+
 void robot_arm::move(int coordinates[3]) {
     copy_data(coordinates, goto_coordinates);
 
@@ -13,7 +16,7 @@ void robot_arm::move(int coordinates[3]) {
 }
 
 void robot_arm::copy_data(int *array1, int *array2) {
-    for (int i = 0; i < (sizeof(array1) / 4); i++) {
+    for (unsigned int i = 0; i < (sizeof(array1) / 4); i++) {
         array2[i] = array1[i];
     }
 }
