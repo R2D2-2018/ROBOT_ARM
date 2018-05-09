@@ -34,5 +34,7 @@
 # Directories
 *
 !src/*
+!test/*
+!Sources.cmake
 
 # Other
