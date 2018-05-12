@@ -1,4 +1,4 @@
-#include "robot_arm.hpp"
+#include "robotarm.hpp"
 #include "wrap-hwlib.hpp"
 
 int main() {
@@ -7,7 +7,7 @@ int main() {
 
     hwlib::wait_ms(1000);
 
-    robot_arm uarm_swift_pro(hwlib::target::pin_out(hwlib::target::pins::d7));
+    RobotArm uarm_swift_pro(hwlib::target::pin_out(hwlib::target::pins::d7));
 
     uarm_swift_pro.move(coordinates);
 
