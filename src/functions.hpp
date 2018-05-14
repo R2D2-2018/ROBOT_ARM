@@ -4,8 +4,7 @@
 class Functions {
   private:
   public:
-    template <typename T>
-    void copyData(T *array1, T *array2);
+    void copyData(int *array1, int *array2);
 };
 
 #endif

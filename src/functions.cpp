@@ -1,6 +1,6 @@
 #include "functions.hpp"
 
-/// CopyData()
+/// copyData()
 //
 /// This function can be used to copy data from one array to another, I created this function because of code repetition.
 void Functions::copyData(int *array1, int *array2) {
