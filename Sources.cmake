@@ -29,6 +29,6 @@ set (sources
     src/libc-stub.cpp
     src/functions.cpp
     src/main.cpp
-    src/robotarm.cpp
+    src/robot_arm.cpp
 	src/settings.cpp
 )
