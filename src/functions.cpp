@@ -1,7 +1,9 @@
 #include "functions.hpp"
 
-template <typename T>
-void Functions::copyData(T *array1, T *array2) {
+/// CopyData()
+//
+/// This function can be used to copy data from one array to another, I created this function because of code repetition.
+void Functions::copyData(int *array1, int *array2) {
     for (unsigned int i = 0; i < (sizeof(array1) / 4); i++) {
         array2[i] = array1[i];
     }
