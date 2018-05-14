@@ -30,4 +30,5 @@ set (sources
     src/functions.cpp
     src/main.cpp
     src/robotarm.cpp
+	src/settings.cpp
 )
