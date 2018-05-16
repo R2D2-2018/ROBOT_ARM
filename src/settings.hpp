@@ -1,7 +1,13 @@
+/**
+ * @file
+ * @brief     Settings for the robotarm
+ *
+ * @author    Jeffrey de Waal
+ * @license   See LICENSE
+ */
+
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
-
-#include "wrap-hwlib.hpp"
 
 class settings {
   private:
@@ -15,13 +21,13 @@ class settings {
      */
     settings(int motorSpeed);
     /**
-     * @brief Returns motorspeed
+     * @brief Get the Motor Speed
      *
      * @return int
      */
-    int returnMotorSpeed();
+    int getMotorSpeed();
     /**
-     * @brief Set the Motor Speed object
+     * @brief Set the Motor Speed
      *
      * @param speed
      */
