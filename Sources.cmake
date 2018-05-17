@@ -27,8 +27,8 @@ include_directories (${catch}/single_include)
 set (sources
     src/libc-stub.cpp
     src/functions.cpp
-    src/main.cpp
     src/robot_arm.cpp
 	src/settings.cpp
-)
-#    src/wrap-hwlib.cpp
+    src/main.cpp
+    src/wrap-hwlib.cpp
+)    

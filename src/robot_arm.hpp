@@ -1,8 +1,14 @@
+/**
+ * @file robot_arm.hpp
+ * @brief
+ *
+ * @author Jeffrey de Waal
+ * @date 2018-05-17
+ */
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
 #include "functions.hpp"
-// #include "wrap-hwlib.hpp"
 
 class RobotArm {
   private:
@@ -11,6 +17,10 @@ class RobotArm {
     int goto_coordinates[3];
 
   public:
+    /**
+     * @brief Construct a new Robot Arm object
+     *
+     */
     RobotArm();
     /**
      * @brief Move the arm to the set coordinates
