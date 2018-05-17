@@ -1,12 +1,12 @@
 #include "settings.hpp"
 
-settings::settings(int motorSpeed) : motorSpeed(motorSpeed) {
+Settings::Settings(int motorSpeed) : motorSpeed(motorSpeed) {
 }
 
-void settings::setMotorSpeed(int speed) {
+void Settings::setMotorSpeed(int speed) {
     motorSpeed = speed;
 }
 
-int settings::getMotorSpeed() {
+int Settings::getMotorSpeed() {
     return motorSpeed;
 }

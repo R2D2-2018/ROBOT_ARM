@@ -9,7 +9,7 @@ int main() {
 
     int coordinates[3] = {4, 12, 5};
     int speed = 5000;
-    settings setting(5);
+    Settings setting(5);
 
     setting.setMotorSpeed(-50);
 

@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief     Settings for the robotarm
+ * @brief     settings for the robotarm
  *
  * @author    Jeffrey de Waal
  * @license   See LICENSE
@@ -9,9 +9,9 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
-class settings {
+class Settings {
   private:
-    int motorSpeed;
+    int motorSpeed; //
 
   public:
     /**
@@ -19,7 +19,7 @@ class settings {
      *
      * @param motorSpeed
      */
-    settings(int motorSpeed);
+    Settings(int motorSpeed);
     /**
      * @brief Get the Motor Speed
      *
