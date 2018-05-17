@@ -32,9 +32,9 @@
 *.app
 
 # Directories
-*
-!src/*
-!test/*
-!Sources.cmake
+build/*
+build_test/*
+.vscode/*
+*.code-workspace
 
 # Other
