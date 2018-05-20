@@ -1,9 +1,8 @@
 /**
- * @file robot_arm.hpp
- * @brief
- *
- * @author Jeffrey de Waal
- * @date 2018-05-17
+ * @file
+ * @brief     Robot Arm class
+ * @author    Jeroen van Hattem
+ * @license   MIT
  */
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
@@ -13,6 +12,7 @@
 class RobotArm {
   private:
     Functions f;
+    int speed;
     int current_coordinates[3];
     int goto_coordinates[3];
 
@@ -28,13 +28,19 @@ class RobotArm {
      * @param coordinates
      * @param speed
      */
-    void move(int coordinates[3], int speed);
+    void move(int coordinates[3], int _speed);
     /**
      * @brief Return the current coordinates
      *
      * @return current_coordinates
      */
     int getCoordinates(char dimension);
+    /**
+     * @brief Return the speed
+     *
+     * @return speed
+     */
+    int getSpeed();
 };
 
 #endif

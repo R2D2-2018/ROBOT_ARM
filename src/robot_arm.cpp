@@ -1,11 +1,18 @@
+/**
+ * @file
+ * @brief     Robot Arm class
+ * @author    Jeroen van Hattem
+ * @license   MIT
+ */
 #include "robot_arm.hpp"
 
 RobotArm::RobotArm() {
 }
 
-void RobotArm::move(int coordinates[3], int speed) {
+void RobotArm::move(int coordinates[3], int _speed) {
     f.copyData(coordinates, goto_coordinates);
     f.copyData(goto_coordinates, current_coordinates);
+    speed = _speed;
 }
 
 int RobotArm::getCoordinates(char dimension) {
@@ -17,4 +24,8 @@ int RobotArm::getCoordinates(char dimension) {
         return current_coordinates[2];
     }
     return 0;
+}
+
+int RobotArm::getSpeed() {
+    return speed;
 }

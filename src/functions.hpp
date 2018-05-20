@@ -1,9 +1,8 @@
 /**
- * @file functions.hpp
- * @brief A class with some funtions used across diferent classes
- *
- * @author Jeffrey de Waal
- * @date 2018-05-17
+ * @file
+ * @brief     A class with some function used in the project to provent repetition code.
+ * @author    Jeroen van Hattem
+ * @license   MIT
  */
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP

@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief     A class with some function used in the project to provent repetition code.
+ * @author    Jeroen van Hattem
+ * @license   MIT
+ */
 #include "functions.hpp"
 
 void Functions::copyData(int array1[3], int array2[3]) {

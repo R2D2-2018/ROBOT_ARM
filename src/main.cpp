@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief     Main function
+ * @author    Jeroen van Hattem
+ * @license   MIT
+ */
 #include "robot_arm.hpp"
 #include "settings.hpp"
 #include "wrap-hwlib.hpp"
