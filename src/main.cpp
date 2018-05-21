@@ -16,11 +16,10 @@ int main() {
     hwlib::wait_ms(1000);
 
     RobotArm uarmSwiftPro;
-    uarmSwiftPro.move(coordinates, speed);
-
-    hwlib::cout << uarmSwiftPro.getCoordinates('x') << hwlib::endl;
-    hwlib::cout << uarmSwiftPro.getCoordinates('y') << hwlib::endl;
-    hwlib::cout << uarmSwiftPro.getCoordinates('z') << hwlib::endl;
+    // uarmSwiftPro.move(coordinates, speed);
+    // hwlib::cout << uarmSwiftPro.getCoordinates('x') << hwlib::endl;
+    // hwlib::cout << uarmSwiftPro.getCoordinates('y') << hwlib::endl;
+    // hwlib::cout << uarmSwiftPro.getCoordinates('z') << hwlib::endl;
 
     return 0;
 }

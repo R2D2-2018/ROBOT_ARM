@@ -26,7 +26,6 @@ include_directories (${catch}/single_include)
 
 set (sources
     src/libc-stub.cpp
-    src/functions.cpp
     src/robot_arm.cpp
 	src/settings.cpp
     src/main.cpp

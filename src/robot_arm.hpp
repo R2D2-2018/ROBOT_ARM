@@ -1,17 +1,14 @@
 /**
  * @file
- * @brief     Robot Arm class
- * @author    Jeroen van Hattem
+ * @brief     This class contains all the functions needed to use the robot arm
+ * @author    Jeroen van Hattem and Jeffrey de Waal
  * @license   MIT
  */
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
-#include "functions.hpp"
-
 class RobotArm {
   private:
-    Functions f;
     int speed;
     int current_coordinates[3];
     int goto_coordinates[3];
@@ -25,8 +22,10 @@ class RobotArm {
     /**
      * @brief Move the arm to the set coordinates
      *
-     * @param coordinates
-     * @param speed
+     *
+     *
+     * @param[int[3]] coordinates
+     * @param[int] speed
      */
     void move(int coordinates[3], int _speed);
     /**

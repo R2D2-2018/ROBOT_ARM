@@ -1,13 +1,13 @@
 #include "settings.hpp"
 
-settings::settings(int motorSpeed) : motorSpeed(motorSpeed) {
+Settings::Settings(int motorSpeed) : motorSpeed(motorSpeed) {
 }
 
-void settings::setMotorSpeed(int speed) {
+void Settings::setMotorSpeed(int speed) {
     motorSpeed = speed;
-    hwlib::cout << "Set motorspeed to: " << motorSpeed << hwlib::endl;
+    // hwlib::cout << "Set motorspeed to: " << motorSpeed << hwlib::endl;
 }
 
-int settings::returnMotorSpeed() {
+int Settings::returnMotorSpeed() {
     return motorSpeed;
 }
