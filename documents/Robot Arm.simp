@@ -27,7 +27,7 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>8</value>
+        <value>7</value>
       </counter>
     </entity-ids>
     <diagrams>
@@ -111,7 +111,7 @@
           </authors>
           <description />
           <creation-date>05/09/2018 14:14:23</creation-date>
-          <change-date>05/09/2018 15:58:14</change-date>
+          <change-date>05/22/2018 10:18:12</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
@@ -119,12 +119,6 @@
           <item id="di922423953105584495" cid="C001" type="class" name="RobotArm" style-class="" visibility="package" change-tracking-state="added" creator="P2da096b1a6a646efa03656f2c30d4a9e" creation-date="05/09/2018 15:47:47">
             <style class="default" />
             <attributes>
-              <attribute id="abd7691b186be4bbc9315f1ea1d18db0b136" cid="ELEM011" name="f" creation-date="01/01/0001 00:00:00" type="" type-id="" visibility="private">
-                <style class="default" />
-                <source-codes>
-                  <source-code language="ActionScript" uid="scs-4f8bb83a-15f7-4fba-8154-db58bed45e08" />
-                </source-codes>
-              </attribute>
               <attribute id="ac1f5969331d4485c9cdf8f61c878340d869" cid="ELEM008" name="goto_coordinates[3]" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="private">
                 <style class="default" />
                 <source-codes>
@@ -226,18 +220,6 @@
           </item>
           <item id="di268921396221849684" cid="C004" type="class" name="Functions" style-class="" visibility="package" change-tracking-state="added" creator="P2da096b1a6a646efa03656f2c30d4a9e" creation-date="05/09/2018 15:56:54">
             <style class="default" />
-            <operations>
-              <operation id="o40b6bc0ac7694135b992fae8d49b3043254" cid="ELEM002" name="copyData" creation-date="01/01/0001 00:00:00" type="" type-id="" visibility="public">
-                <style class="default" />
-                <parameters>
-                  <parameter id="p64a3a241673d47bd89f4bcd0ec437ffd" name="array1" type="int[3]" type-id="int[3]" />
-                  <parameter id="p5c6f1d7cd1f449ff9decc2518a3d3f2d" name="array2" type="int[3]" type-id="int[3]" />
-                </parameters>
-                <source-codes>
-                  <source-code language="ActionScript" />
-                </source-codes>
-              </operation>
-            </operations>
             <source-codes>
               <source-code language="ActionScript" />
             </source-codes>
@@ -245,15 +227,8 @@
           <item id="di742647722337396803" cid="REL001" type="relationship" name="" style-class="" visibility="package" change-tracking-state="added" creator="P2da096b1a6a646efa03656f2c30d4a9e" creation-date="05/09/2018 15:57:41" from="di922423953105584495" to="di300518924103249147">
             <style class="default" />
             <relation from="di922423953105584495" to="di300518924103249147">
-              <start-role id="umlar-52e99de4-12fb-4dc0-9ce9-3c7d70336f42" name="" navigability="" association-type="association" visibility="private" />
-              <end-role id="umlar-900ab176-d2cd-4c25-a0f1-b81c2e7e6571" name="" navigability="yes" association-type="association" visibility="private" />
-            </relation>
-          </item>
-          <item id="di354373035821896086" cid="REL003" type="relationship" name="" style-class="" visibility="package" change-tracking-state="added" creator="P2da096b1a6a646efa03656f2c30d4a9e" creation-date="05/09/2018 15:58:14" from="di922423953105584495" to="di268921396221849684">
-            <style class="default" />
-            <relation from="di922423953105584495" to="di268921396221849684">
-              <start-role id="umlar-02114e37-62b9-4b1b-9c1b-2ae90c62d1b7" name="" navigability="" association-type="association" visibility="private" />
-              <end-role id="umlar-bc808bf2-981d-42e1-9ca6-63f7f0ebb2be" name="" navigability="yes" association-type="association" visibility="private" />
+              <start-role id="umlar-e1738a1b-08b3-4252-b8cb-6c6476e2e2af" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="umlar-fdb1e904-a1e1-4f7c-ae0d-1d9456f7fbb0" name="" navigability="yes" association-type="association" visibility="private" />
             </relation>
           </item>
         </abstract-items>
@@ -266,10 +241,6 @@
             <layout ax="637" ay="99.5" awidth="140" aheight="160" x="637" y="99.5" width="140" height="160" />
             <class />
           </item>
-          <item id="di268921396221849684" iid="0a3cc75f9cd04f1785bb577e7bb44401" creation-date="05/09/2018 15:56:54" order-index="2" type="entity">
-            <layout ax="307.5" ay="372" awidth="140" aheight="160" x="307.5" y="372" width="140" height="160" />
-            <class />
-          </item>
           <item id="di742647722337396803" iid="ccb135a4b1444f408e8df86b527ec831" creation-date="05/09/2018 15:57:41" order-index="3" type="relation">
             <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="537" y1="180" x2="637" y2="180" start-border-pos="0.375" end-border-pos="0.875" name-position="0,0">
               <points>
@@ -278,15 +249,6 @@
               </points>
             </layout>
             <relation from="di922423953105584495" from-iid="a9203bff83314306b6521b7a66dbef28" to="di300518924103249147" to-iid="52477d5e31634ba79b71317d118813bb" />
-          </item>
-          <item id="di354373035821896086" iid="4292a212e45c43b2966c63d8d5bcec1a" creation-date="05/09/2018 15:58:14" order-index="4" type="relation">
-            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="378" y1="272" x2="378" y2="372" start-border-pos="0.625" end-border-pos="0.125" name-position="0,0">
-              <points>
-                <point x="378" y="272" />
-                <point x="378" y="372" />
-              </points>
-            </layout>
-            <relation from="di922423953105584495" from-iid="a9203bff83314306b6521b7a66dbef28" to="di268921396221849684" to-iid="0a3cc75f9cd04f1785bb577e7bb44401" />
           </item>
         </layer>
       </diagram>
