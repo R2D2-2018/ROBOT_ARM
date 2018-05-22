@@ -5,6 +5,8 @@
  * @license   MIT
  */
 #include "robot_arm.hpp"
+#include <sstream>
+#include <string>
 
 RobotArm::RobotArm() {
 }
@@ -13,7 +15,9 @@ void RobotArm::move(int coordinates[3], int _speed) {
     for (unsigned int i = 0; i < 3; i++) {
         goto_coordinates[i] = coordinates[i];
     }
+
     // Move the arm.
+
     for (unsigned int i = 0; i < 3; i++) {
         current_coordinates[i] = goto_coordinates[i];
     }
