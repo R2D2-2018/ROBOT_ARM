@@ -7,8 +7,16 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include "wrap-hwlib.hpp"
+#include <sstream>
+#include <string>
+
 class RobotArm {
   private:
+    enum Actions { reset, calibrate };
+
+    Actions action;
+
     int speed;
     int current_coordinates[3];
     int goto_coordinates[3];
@@ -28,6 +36,14 @@ class RobotArm {
      * @param[int] speed
      */
     void move(int coordinates[3], int _speed);
+    /**
+     * @brief Execute a desired action.
+     *
+     *
+     *
+     * @param[Actions]] action
+     */
+    void executeAction(Actions action);
     /**
      * @brief Return the current coordinates
      *
