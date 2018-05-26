@@ -7,18 +7,26 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include "uart_connection.hpp"
+#include "wrap-hwlib.hpp"
+#include <sstream>
+#include <string>
+// #include <stringstream>
+
 class RobotArm {
   private:
     int speed;
     int current_coordinates[3];
     int goto_coordinates[3];
+    UARTConnection conn;
 
   public:
     /**
      * @brief Construct a new Robot Arm object
      *
      */
-    RobotArm();
+    RobotArm() : conn(115200, UARTController::ONE) {
+    }
     /**
      * @brief Move the arm to the set coordinates
      *
