@@ -10,10 +10,8 @@
 #include "wrap-hwlib.hpp"
 
 int main() {
+    Settings setting1(10);
     WDT->WDT_MR = WDT_MR_WDDIS;
     hwlib::wait_ms(1000);
-
-    RobotArm uarmSwiftPro;
-
     return 0;
 }
