@@ -7,12 +7,16 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include "wrap-hwlib.hpp"
+#include <sstream>
+#include <string>
+
 class RobotArm {
   private:
     enum Actions { reset, calibrate };
 
     Actions action;
-	
+
     int speed;
     int current_coordinates[3];
     int goto_coordinates[3];
@@ -38,7 +42,7 @@ class RobotArm {
      * @return current_coordinates
      */
     int getCoordinates(char dimension);
-	    /**
+    /**
      * @brief Determine G-Code for a desired location.
      *
      *
