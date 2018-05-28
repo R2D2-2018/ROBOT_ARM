@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sim-project version="11.50" multi-file="no" uid="simpd4ef355aa1594145b1b3b5f90a149d0b">
+<sim-project version="11.20" multi-file="no" uid="simpd4ef355aa1594145b1b3b5f90a149d0b">
   <meta>
     <name>Robot Arm</name>
     <authors>Jeroen van Hattem</authors>
@@ -9,17 +9,17 @@
     <entity-names>
       <counter>
         <item-type type-id="class" type="UmlClass" />
-        <value>4</value>
+        <value>5</value>
       </counter>
     </entity-names>
     <entity-ids>
       <counter>
         <item-type type-id="class" type="UmlClass" />
-        <value>5</value>
+        <value>6</value>
       </counter>
       <counter>
         <item-type type-id="relationship" type="UmlAssociation" />
-        <value>4</value>
+        <value>5</value>
       </counter>
       <counter>
         <item-type type-id="universal-connector" type="UniversalConnector" />
@@ -27,7 +27,11 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>9</value>
+        <value>37</value>
+      </counter>
+      <counter>
+        <item-type type-id="dependency" type="UmlDependency" />
+        <value>3</value>
       </counter>
     </entity-ids>
     <diagrams>
@@ -39,11 +43,11 @@
     <fields>
       <counter>
         <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.OperationField</type>
-        <value>15</value>
+        <value>21</value>
       </counter>
       <counter>
         <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.AttributeField</type>
-        <value>13</value>
+        <value>16</value>
       </counter>
     </fields>
   </counters>
@@ -60,6 +64,15 @@
         <description />
         <color>#00000000</color>
         <working-schedule uid="ws-ed910f0e7051498e9e189bfec3efc2ed" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
+      </person>
+      <person id="P36c8cb661afc4b8991e5e2513fe8e6b6">
+        <first-name />
+        <last-name />
+        <role />
+        <e-mail />
+        <phone-number />
+        <description />
+        <color>#00000000</color>
       </person>
     </persons>
     <teams />
@@ -82,6 +95,9 @@
       <type id="hwlib::target::pin_out" tid="" name="hwlib::target::pin_out" description="" />
       <type id="Class:di268921396221849684" tid="" name="Functions" description="" class-ref="di268921396221849684" />
       <type id="char" tid="" name="char" description="" />
+      <type id="Actions" tid="" name="Actions" description="" />
+      <type id="void" tid="" name="void" description="" />
+      <type id="actions" tid="" name="actions" description="" />
     </custom-types>
   </types>
   <items />
@@ -99,7 +115,7 @@
       </meta>
       <abstract-items />
       <sub-models />
-      <diagram type="uml-class" id="p17d51608b2364e108210769123c12fcc_201402699" name="Class Diagram" order-index="1" uid="" show-id="false" show-name="true" show-parent-name="false" name-style="local-auto-parents" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false">
+      <diagram type="uml-class" id="p17d51608b2364e108210769123c12fcc_201402699" name="Class Diagram" order-index="1" uid="" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false">
         <style>
           <background-color index="1" color="#FFFFFFFF" />
           <background-color index="2" color="#FFFFFFFF" />
@@ -111,7 +127,7 @@
           </authors>
           <description />
           <creation-date>05/09/2018 14:14:23</creation-date>
-          <change-date>05/22/2018 10:18:12</change-date>
+          <change-date>05/25/2018 13:56:38</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
@@ -119,40 +135,52 @@
           <item id="di922423953105584495" cid="C001" type="class" name="RobotArm" style-class="" visibility="package" change-tracking-state="added" creator="P2da096b1a6a646efa03656f2c30d4a9e" creation-date="05/09/2018 15:47:47">
             <style class="default" />
             <attributes>
+              <attribute id="a2eac2e3ff36b479393969701e8c3a19e829" cid="ELEM015" name="action" creation-date="01/01/0001 00:00:00" type="Actions" type-id="Actions" visibility="private">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" uid="scs-328b3360-4f03-4e1f-a90e-cfbba3d75144" />
+                </source-codes>
+              </attribute>
               <attribute id="ac1f5969331d4485c9cdf8f61c878340d869" cid="ELEM008" name="goto_coordinates[3]" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="private">
                 <style class="default" />
                 <source-codes>
-                  <source-code language="ActionScript" uid="scs-395b9afe-845d-430f-bd18-e3d2b2894a1e" />
+                  <source-code language="ActionScript" uid="scs-1dc6fb74-ccd1-4e9b-b6ac-6c16d66fdb25" />
                 </source-codes>
               </attribute>
               <attribute id="ab910f32b7aaa40e995e6ba3fed9d98bf785" cid="ELEM009" name="current_coordinates[3]" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="private">
                 <style class="default" />
                 <source-codes>
-                  <source-code language="ActionScript" uid="scs-b30d6a83-15be-453c-96ee-15a322791fe5" />
+                  <source-code language="ActionScript" uid="scs-c116455a-11a5-4e6d-aa89-abfc41db29b9" />
                 </source-codes>
               </attribute>
               <attribute id="a8e12cb636acc46c1ac5d8b22d7b7099d975" cid="ELEM012" name="speed" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="private">
                 <style class="default" />
                 <source-codes>
-                  <source-code language="ActionScript" uid="scs-687322c0-66cd-4b47-8283-3ebe02e5a6d1" />
+                  <source-code language="ActionScript" uid="scs-09135155-fef9-4dbe-b86c-7a4b9d60e69a" />
                 </source-codes>
               </attribute>
             </attributes>
             <operations>
               <operation id="oe455638a4ad44ea4a11e90f03e089e29301" cid="ELEM010" name="RobotArm" creation-date="01/01/0001 00:00:00" type="" type-id="" visibility="public">
                 <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o9888f4cbb4f347fca9f3126ff64d3951470" cid="ELEM001" name="move" creation-date="01/01/0001 00:00:00" type="void" type-id="void" visibility="public">
+                <style class="default" />
                 <parameters>
-                  <parameter id="pbe03ac8318a54ca68eaec56d0cf9d126" name="output_pin" type="hwlib::target::pin_out" type-id="hwlib::target::pin_out" />
+                  <parameter id="pa77a1b37dcc34e0f9ee4b302665065d2" name="coordinates" type="int" type-id="int" multiplicity="3" />
+                  <parameter id="pa9f81e5cbd0d4e6daafe8d635d7215d5" name="speed" type="int" type-id="int" />
                 </parameters>
                 <source-codes>
                   <source-code language="ActionScript" />
                 </source-codes>
               </operation>
-              <operation id="o9888f4cbb4f347fca9f3126ff64d3951470" cid="ELEM001" name="move" creation-date="01/01/0001 00:00:00" type="" type-id="" visibility="public">
+              <operation id="o2efa8680fa0e4b4381ac159ca250544546" cid="ELEM020" name="executeAction" creation-date="01/01/0001 00:00:00" type="void" type-id="void" visibility="public">
                 <style class="default" />
                 <parameters>
-                  <parameter id="pa77a1b37dcc34e0f9ee4b302665065d2" name="coordinates" type="int" type-id="int" multiplicity="3" />
-                  <parameter id="pa9f81e5cbd0d4e6daafe8d635d7215d5" name="speed" type="int" type-id="int" />
+                  <parameter id="pd82a2a3029c54e8dbeaabf545e210892" name="action" type="Actions" type-id="Actions" />
                 </parameters>
                 <source-codes>
                   <source-code language="ActionScript" />
@@ -167,7 +195,25 @@
                   <source-code language="ActionScript" />
                 </source-codes>
               </operation>
-              <operation id="ofc2367aff2d9473f81f0c5e65e649da4675" cid="ELEM014" name="getSpeed" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="public">
+              <operation id="ofc2367aff2d9473f81f0c5e65e649da4675" cid="ELEM014" name="determineGCode" creation-date="01/01/0001 00:00:00" type="void" type-id="void" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p06aae94181044759aa417365547e8462" name="coordinates" type="int" type-id="int" multiplicity="3" />
+                </parameters>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="oeabecd55130847b7acbdd905c2718be4666" cid="ELEM018" name="determineGCode" creation-date="01/01/0001 00:00:00" type="void" type-id="void" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pfec46848c3264ac597f39713e4024be8" name="action" type="Actions" type-id="Actions" />
+                </parameters>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o080003fffd9d48429dfe762edb13137b605" cid="ELEM019" name="getSpeed" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="public">
                 <style class="default" />
                 <source-codes>
                   <source-code language="ActionScript" />
@@ -227,14 +273,41 @@
           <item id="di742647722337396803" cid="REL001" type="relationship" name="" style-class="" visibility="package" change-tracking-state="added" creator="P2da096b1a6a646efa03656f2c30d4a9e" creation-date="05/09/2018 15:57:41" from="di922423953105584495" to="di300518924103249147">
             <style class="default" />
             <relation from="di922423953105584495" to="di300518924103249147">
-              <start-role id="umlar-e1738a1b-08b3-4252-b8cb-6c6476e2e2af" name="" navigability="" association-type="association" visibility="private" />
-              <end-role id="umlar-fdb1e904-a1e1-4f7c-ae0d-1d9456f7fbb0" name="" navigability="yes" association-type="association" visibility="private" />
+              <start-role id="umlar-28930b70-aee5-4717-a97e-5227dbdfd4f9" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="umlar-8c2c7013-b0d8-42f7-847c-694fda31ca29" name="" navigability="yes" association-type="association" visibility="private" />
+            </relation>
+          </item>
+          <item id="di569670202720802269" cid="C005" type="class" name="Actions" style-class="" visibility="package" change-tracking-state="added" creator="P36c8cb661afc4b8991e5e2513fe8e6b6" creation-date="05/25/2018 13:54:28">
+            <style class="default" />
+            <operations>
+              <operation id="oc493ba7950bd4a6286dddc1695415b7e287" cid="ELEM016" name="reset" creation-date="01/01/0001 00:00:00" type="actions" type-id="actions" visibility="public">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o55c5b2b6b61a43bfba55549c9f5c2b05426" cid="ELEM017" name="calibrate" creation-date="01/01/0001 00:00:00" type="actions" type-id="actions" visibility="public">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <source-codes>
+              <source-code language="ActionScript" />
+            </source-codes>
+          </item>
+          <item id="di301459757431869833" cid="REL004" type="relationship" name="" style-class="" visibility="package" change-tracking-state="added" creator="P36c8cb661afc4b8991e5e2513fe8e6b6" creation-date="05/25/2018 13:56:35" from="di922423953105584495" to="di569670202720802269">
+            <style class="default" />
+            <relation from="di922423953105584495" to="di569670202720802269">
+              <start-role id="umlar-d67487d1-0b82-47e6-a5a2-902493d8a208" name="" navigability="" association-type="association" visibility="private" />
+              <end-role id="umlar-f8627db2-705d-462b-b8dc-426b9a9032f3" name="" navigability="yes" association-type="association" visibility="private" />
             </relation>
           </item>
         </abstract-items>
         <layer id="e7dda80148e84042bbbc63c0c8058f42" name="Default" visible="true" enabled="true" locked="false">
           <item id="di922423953105584495" iid="a9203bff83314306b6521b7a66dbef28" creation-date="05/09/2018 15:47:47" order-index="0" type="entity">
-            <layout ax="218" ay="87" awidth="319" aheight="185" x="218" y="87" width="319" height="185" />
+            <layout ax="218" ay="87" awidth="319" aheight="236" x="218" y="87" width="319" height="236" />
             <class />
           </item>
           <item id="di300518924103249147" iid="52477d5e31634ba79b71317d118813bb" creation-date="05/09/2018 15:48:13" order-index="1" type="entity">
@@ -242,13 +315,26 @@
             <class />
           </item>
           <item id="di742647722337396803" iid="ccb135a4b1444f408e8df86b527ec831" creation-date="05/09/2018 15:57:41" order-index="3" type="relation">
-            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="537" y1="180" x2="637" y2="180" start-border-pos="0.375" end-border-pos="0.875" name-position="0,0">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="537" y1="205" x2="637" y2="180" start-border-pos="0.375" end-border-pos="0.875" name-position="0,0">
               <points>
-                <point x="537" y="180" />
+                <point x="537" y="205" />
                 <point x="637" y="180" />
               </points>
             </layout>
             <relation from="di922423953105584495" from-iid="a9203bff83314306b6521b7a66dbef28" to="di300518924103249147" to-iid="52477d5e31634ba79b71317d118813bb" />
+          </item>
+          <item id="di569670202720802269" iid="030f893e5c234c73a62a5bc3430664ab" creation-date="05/25/2018 13:54:28" order-index="4" type="entity">
+            <layout ax="27" ay="99.5" awidth="140" aheight="160" x="27" y="99.5" width="140" height="160" />
+            <class />
+          </item>
+          <item id="di301459757431869833" iid="030b05559c324f3aa059d5552b1085ad" creation-date="05/25/2018 13:56:35" order-index="5" type="relation">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="false" lock-end-point="false" lock-to-fields="false" auto-path="" x1="218" y1="191" x2="167" y2="186" start-border-pos="0.89007932048733" end-border-pos="0.385512113571167" name-position="0,0">
+              <points>
+                <point x="218" y="191" />
+                <point x="167" y="186" />
+              </points>
+            </layout>
+            <relation from="di922423953105584495" from-iid="a9203bff83314306b6521b7a66dbef28" to="di569670202720802269" to-iid="030f893e5c234c73a62a5bc3430664ab" />
           </item>
         </layer>
       </diagram>
