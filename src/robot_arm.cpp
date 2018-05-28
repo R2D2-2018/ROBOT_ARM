@@ -1,21 +1,19 @@
 /**
  * @file
  * @brief     Robot Arm class
- * @author    Jeroen van Hattem
+ * @author    Jeroen van Hattem and Jeffrey de Waal
  * @license   MIT
  */
 #include "robot_arm.hpp"
 
 void RobotArm::move(int coordinates[3], int _speed) {
-    long startMsReceive = hwlib::now_us() / 1000;
-    long startMsSend = hwlib::now_us() / 1000;
-
     for (unsigned int i = 0; i < 3; i++) {
         goto_coordinates[i] = coordinates[i];
     }
+
     if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
-        conn << "G0 X110 Y110 Z110 F10000\n"; /// For now, this is hard coded, using the coordinates passed as parameters will be in
-                                              /// the next sprint.
+        startMsSend = hwlib::now_us() / 1000;
+        conn << "G0 X150 Y150 Z150 F10000\n"; /// Move
     }
 
     if (conn.available() > 0 && (hwlib::now_us() / 1000) - startMsReceive > 30) {
