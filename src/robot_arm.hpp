@@ -11,10 +11,16 @@
 #include "wrap-hwlib.hpp"
 #include <sstream>
 #include <string>
-// #include <stringstream>
+#include "wrap-hwlib.hpp"
+#include <sstream>
+#include <string>
 
 class RobotArm {
   private:
+    enum class Actions { reset, calibrate };
+
+    Actions action;
+
     int speed;
     int current_coordinates[3];
     int goto_coordinates[3];
@@ -50,6 +56,22 @@ class RobotArm {
      * @return current_coordinates
      */
     int getCoordinates(char dimension);
+    /**
+     * @brief Determine G-Code for a desired location.
+     *
+     *
+     *
+     * @param[int[3]] coordinates
+     */
+    void determineGCode(int coordinates[3]);
+    /**
+     * @brief Determine G-Code for a desired action.
+     *
+     *
+     *
+     * @param[Actions]] action
+     */
+    void determineGCode(Actions action);
     /**
      * @brief Return the speed
      *

@@ -21,6 +21,5 @@ int main() {
     while (true) {
         uarmSwiftPro.move(coordinates, 5000);
     }
-
     return 0;
 }
