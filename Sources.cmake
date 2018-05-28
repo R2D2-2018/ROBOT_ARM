@@ -30,4 +30,5 @@ set (sources
 	src/settings.cpp
     src/main.cpp
     src/wrap-hwlib.cpp
+	src/uart_connection.cpp
 )    
