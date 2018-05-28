@@ -27,7 +27,7 @@ class Settings {
      *
      * @return int
      */
-    int returnMotorSpeed();
+    int getMotorSpeed();
     /**
      * @brief Set the Motor Speed object
      *
