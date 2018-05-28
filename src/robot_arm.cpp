@@ -15,11 +15,6 @@ void RobotArm::move(int coordinates[3], int _speed) {
     }
     hwlib::wait_ms(500);
 
-    // Move the arm.
-    // std::ostringstream g_code_stream;
-    // g_code_stream << "G0 X" << coordinates[0] << " Y" << coordinates[1] << " Z" << coordinates[2] << " F" + speed;
-    // std::string g_code = g_code_stream.str();
-
     for (unsigned int i = 0; i < 3; i++) {
         current_coordinates[i] = goto_coordinates[i];
     }

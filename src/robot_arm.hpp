@@ -13,7 +13,7 @@
 
 class RobotArm {
   private:
-    enum Actions { reset, calibrate };
+    enum class Actions { reset, calibrate };
 
     Actions action;
 
