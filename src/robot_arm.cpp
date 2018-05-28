@@ -33,6 +33,10 @@ void RobotArm::move(int coordinates[3], int _speed) {
     speed = _speed;
 }
 
+void RobotArm::executeAction(Actions action) {
+    action = action;
+    hwlib::cout << "Executing Action" << hwlib::endl;
+
 void RobotArm::determineGCode(int coordinates[3]) {
     hwlib::cout << "Moving to " << coordinates[0] << ", " << coordinates[1] << ", " << coordinates[2] << "." << hwlib::endl;
 }
