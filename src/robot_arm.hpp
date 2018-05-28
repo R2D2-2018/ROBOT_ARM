@@ -7,13 +7,13 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include "uart_connection.hpp"
 #include "wrap-hwlib.hpp"
 #include <sstream>
 #include <string>
 
 class RobotArm {
   private:
-
     enum class Actions { reset, calibrate };
 
     Actions action;
@@ -32,8 +32,7 @@ class RobotArm {
      * The default constructor to create a new RobootArm object.
      *
      */
-    RobotArm() : conn(115200, UARTController::ONE) {
-    }
+    RobotArm();
 
     /**
      * @brief Move the arm to the set coordinates

@@ -6,7 +6,7 @@
  */
 #include "robot_arm.hpp"
 
-RobotArm::RobotArm() {
+RobotArm::RobotArm() : conn(115200, UARTController::ONE) {
 }
 
 void RobotArm::move(int coordinates[3], int _speed) {
@@ -36,6 +36,7 @@ void RobotArm::move(int coordinates[3], int _speed) {
 void RobotArm::executeAction(Actions action) {
     action = action;
     hwlib::cout << "Executing Action" << hwlib::endl;
+}
 
 void RobotArm::determineGCode(int coordinates[3]) {
     hwlib::cout << "Moving to " << coordinates[0] << ", " << coordinates[1] << ", " << coordinates[2] << "." << hwlib::endl;
@@ -43,9 +44,9 @@ void RobotArm::determineGCode(int coordinates[3]) {
 
 void RobotArm::determineGCode(Actions action) {
     switch (action) {
-    case reset:
+    case Actions::reset:
         hwlib::cout << "Resetting" << hwlib::endl;
-    case calibrate:
+    case Actions::calibrate:
         hwlib::cout << "Calibrating" << hwlib::endl;
     default:
         hwlib::cout << "This isn't a legit move" << hwlib::endl;
