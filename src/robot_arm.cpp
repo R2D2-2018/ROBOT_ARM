@@ -45,11 +45,10 @@ void RobotArm::determineGCode(int coordinates[3]) {
 void RobotArm::determineGCode(Actions action) {
     switch (action) {
     case Actions::reset:
+        move({200, 0, 100}, speed);
         hwlib::cout << "Resetting" << hwlib::endl;
-    case Actions::calibrate:
-        hwlib::cout << "Calibrating" << hwlib::endl;
     default:
-        hwlib::cout << "This isn't a legit move" << hwlib::endl;
+        hwlib::cout << "This isn't a legit action" << hwlib::endl;
     }
 }
 
