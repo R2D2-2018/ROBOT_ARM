@@ -25,10 +25,11 @@ include_directories (${catch}/single_include)
 # Source Files:
 
 set (sources
+    src/coordinate3d.cpp
     src/libc-stub.cpp
+    src/main.cpp
     src/robot_arm.cpp
 	src/settings.cpp
-    src/main.cpp
-    src/wrap-hwlib.cpp
 	src/uart_connection.cpp
+    src/wrap-hwlib.cpp
 )    

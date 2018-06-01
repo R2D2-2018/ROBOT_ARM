@@ -7,10 +7,10 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include "coordinate3d.hpp"
 #include "uart_connection.hpp"
 #include "wrap-hwlib.hpp"
-#include <sstream>
-#include <string>
+#include <cstring>
 
 class RobotArm {
   private:
@@ -19,10 +19,12 @@ class RobotArm {
     Actions action;
 
     int speed;
-    int current_coordinates[3];
-    int goto_coordinates[3];
+    // int current_coordinates[3];
+    // int goto_coordinates[3];
     long startMsReceive = hwlib::now_us() / 1000;
     long startMsSend = hwlib::now_us() / 1000;
+    char commandBuffer[25];
+    int bufferCounter = 0;
     UARTConnection conn;
 
   public:
@@ -34,16 +36,28 @@ class RobotArm {
      */
     RobotArm();
 
+    char *intToString(int x);
+    /**
+     * @brief strcpy function
+     *
+     * This function is purely here because the STD variant doesn't work. It's a literal copy.
+     *
+     * @param d : char *
+     * @param s : const char *
+     * @return char*
+     */
+    char *strcopy(char *d, const char *s);
+    char *strcadd(char *d, const char *s);
     /**
      * @brief Move the arm to the set coordinates
      *
-     * This function will take an array existing of 3 integer values and an integer that resembles the speed. These parameters will
-     * me transformed into a G-Code. This will be send to the uArm using the uart_connection class.
+     * This function will take an array existing of 3 integer values and an integer that resembles the speed. These parameters
+     * will me transformed into a G-Code. This will be send to the uArm using the uart_connection class.
      *
      * @param[int[3]] coordinates
      * @param[int] speed
      */
-    void move(int coordinates[3], int _speed);
+    void move(Coordinate3D coordinates, int speed);
     /**
      * @brief Execute a desired action.
      *
