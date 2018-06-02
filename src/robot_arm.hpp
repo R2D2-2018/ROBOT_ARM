@@ -7,22 +7,21 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include "coordinate3d.hpp"
 #include "uart_connection.hpp"
 #include "wrap-hwlib.hpp"
-#include <sstream>
-#include <string>
+#include <cstring>
 
 class RobotArm {
   private:
-    enum class Actions { reset, calibrate };
+    enum class Actions { reset };
 
     Actions action;
 
     int speed;
-    int current_coordinates[3];
-    int goto_coordinates[3];
     long startMsReceive = hwlib::now_us() / 1000;
     long startMsSend = hwlib::now_us() / 1000;
+    char commandBuffer[25];
     UARTConnection conn;
 
   public:
@@ -33,17 +32,51 @@ class RobotArm {
      *
      */
     RobotArm();
+    /**
+     * @brief intToChar function
+     *
+     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
+     * parameter
+     *
+     * @param x : int
+     * @param dest  : char *
+     * @return char*
+     */
+    char *intToChar(int x, char *dest);
 
+    /**
+     * @brief strcopy function
+     *
+     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcpy. dest = destination. src =
+     * source.
+     *
+     * @param dest : char *
+     * @param src : const char *
+     * @return char*
+     */
+    char *strcopy(char *dest, const char *src);
+
+    /**
+     * @brief stradd function
+     *
+     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcat. dest = destination. src =
+     * source.
+     *
+     * @param dest : char *
+     * @param src : const char *
+     * @return char*
+     */
+    char *stradd(char *dest, const char *src);
     /**
      * @brief Move the arm to the set coordinates
      *
-     * This function will take an array existing of 3 integer values and an integer that resembles the speed. These parameters will
-     * me transformed into a G-Code. This will be send to the uArm using the uart_connection class.
+     * This function will take an array existing of 3 integer values and an integer that resembles the speed. These parameters
+     * will me transformed into a G-Code. This will be send to the uArm using the uart_connection class.
      *
      * @param[int[3]] coordinates
      * @param[int] speed
      */
-    void move(int coordinates[3], int _speed);
+    void move(Coordinate3D coordinates, int speed);
     /**
      * @brief Execute a desired action.
      *
@@ -52,14 +85,6 @@ class RobotArm {
      * @param[Actions]] action
      */
     void executeAction(Actions action);
-    /**
-     * @brief Return the current coordinates
-     *
-     * This function returns the coordinates of where the robot arm is or is moving to.
-     *
-     * @return current_coordinates
-     */
-    int getCoordinates(char dimension);
     /**
      * @brief Determine G-Code for a desired location.
      *

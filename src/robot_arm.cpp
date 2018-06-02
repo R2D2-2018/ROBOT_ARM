@@ -9,14 +9,64 @@
 RobotArm::RobotArm() : conn(115200, UARTController::ONE) {
 }
 
-void RobotArm::move(int coordinates[3], int _speed) {
-    for (unsigned int i = 0; i < 3; i++) {
-        goto_coordinates[i] = coordinates[i];
+char *RobotArm::stradd(char *dest, const char *src) {
+    size_t i, j;
+    for (i = 0; dest[i] != '\0'; i++) {
     }
+    for (j = 0; src[j] != '\0'; j++) {
+        dest[i + j] = src[j];
+    }
+    dest[i + j] = '\0';
+    return dest;
+}
+
+char *RobotArm::strcopy(char *dest, const char *src) {
+    char *saved = dest;
+    while (*src) {
+        *dest++ = *src++;
+    }
+    *dest++ = '\0';
+    *dest = 0;
+    return saved;
+}
+
+char *RobotArm::intToChar(int number, char *dest) {
+    if (number / 10 == 0) {
+        *dest++ = number + '0';
+        *dest = '\0';
+        return dest;
+    }
+
+    dest = intToChar(number / 10, dest);
+    *dest++ = number % 10 + '0';
+    *dest = '\0';
+    return dest;
+}
+
+void RobotArm::move(Coordinate3D coordinates, int speed) {
+
+    char coordinatesAsTextX[10];
+    char coordinatesAsTextY[10];
+    char coordinatesAsTextZ[10];
+    char speedAsText[10];
+    intToChar(coordinates.getX(), coordinatesAsTextX);
+    intToChar(coordinates.getY(), coordinatesAsTextY);
+    intToChar(coordinates.getZ(), coordinatesAsTextZ);
+    intToChar(speed, speedAsText);
+
+    strcopy(commandBuffer, "G0 X");
+    stradd(commandBuffer, coordinatesAsTextX);
+    stradd(commandBuffer, " Y");
+    stradd(commandBuffer, coordinatesAsTextY);
+    stradd(commandBuffer, " Z");
+    stradd(commandBuffer, coordinatesAsTextZ);
+    stradd(commandBuffer, " F");
+    stradd(commandBuffer, speedAsText);
+    stradd(commandBuffer, "\n");
 
     if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
         startMsSend = hwlib::now_us() / 1000;
-        conn << "G0 X150 Y150 Z150 F10000\n"; /// Move
+        conn << commandBuffer;
     }
 
     if (conn.available() > 0 && (hwlib::now_us() / 1000) - startMsReceive > 30) {
@@ -27,10 +77,7 @@ void RobotArm::move(int coordinates[3], int _speed) {
         }
     }
 
-    for (unsigned int i = 0; i < 3; i++) {
-        current_coordinates[i] = goto_coordinates[i];
-    }
-    speed = _speed;
+    speed = speed;
 }
 
 void RobotArm::executeAction(Actions action) {
@@ -46,22 +93,11 @@ void RobotArm::determineGCode(Actions action) {
     switch (action) {
     case Actions::reset:
         hwlib::cout << "Resetting" << hwlib::endl;
-    case Actions::calibrate:
-        hwlib::cout << "Calibrating" << hwlib::endl;
+        break;
     default:
-        hwlib::cout << "This isn't a legit move" << hwlib::endl;
+        hwlib::cout << "This isn't a legit action" << hwlib::endl;
+        break;
     }
-}
-
-int RobotArm::getCoordinates(char dimension) {
-    if (dimension == 'x') {
-        return current_coordinates[0];
-    } else if (dimension == 'y') {
-        return current_coordinates[1];
-    } else if (dimension == 'z') {
-        return current_coordinates[2];
-    }
-    return 0;
 }
 
 int RobotArm::getSpeed() {
