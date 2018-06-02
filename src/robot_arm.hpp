@@ -19,12 +19,9 @@ class RobotArm {
     Actions action;
 
     int speed;
-    // int current_coordinates[3];
-    // int goto_coordinates[3];
     long startMsReceive = hwlib::now_us() / 1000;
     long startMsSend = hwlib::now_us() / 1000;
     char commandBuffer[25];
-    int bufferCounter = 0;
     UARTConnection conn;
 
   public:
@@ -35,8 +32,17 @@ class RobotArm {
      *
      */
     RobotArm();
+    /**
+     * @brief intToChar function
+     *
+     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'p' parameter
+     *
+     * @param i : int
+     * @param p  : char *
+     * @return char*
+     */
+    char *intToChar(int i, char *p);
 
-    char *intToString(int x);
     /**
      * @brief strcpy function
      *

@@ -9,140 +9,65 @@
 RobotArm::RobotArm() : conn(115200, UARTController::ONE) {
 }
 
-char *RobotArm::intToString(int x) {
-    if (x < 1000) {
-        char string[3];
-        char charValue;
-        int value = 0;
+char *RobotArm::strcadd(char *d, const char *s) {
+    size_t i, j;
+    for (i = 0; d[i] != '\0'; i++) {
+    }
+    for (j = 0; s[j] != '\0'; j++) {
+        d[i + j] = s[j];
+    }
+    d[i + j] = '\0';
+    return d;
+}
 
-        if (x > 100) {
-            value = x % 10;
-            charValue = value + '0';
-            x = (x - value) / 10;
-            string[2] = charValue;
+char *RobotArm::strcopy(char *d, const char *s) {
+    char *saved = d;
+    while (*s) {
+        *d++ = *s++;
+    }
+    *d++ = '\0';
+    *d = 0;
+    return saved;
+}
 
-            value = x % 10;
-            charValue = value + '0';
-            x = (x - value) / 10;
-            string[1] = charValue;
-
-            charValue = x + '0';
-            string[0] = charValue;
-            return string;
-        }
-
-        else if (x < 100) {
-            value = x % 10;
-            charValue = value + '0';
-
-            string[2] = charValue;
-            x = (x - value) / 10;
-            charValue = x + '0';
-            string[1] = charValue;
-
-            string[0] = '0';
-            return string;
-        }
+char *RobotArm::intToChar(int i, char *p) {
+    if (i / 10 == 0) {
+        // No more digits.
+        *p++ = i + '0';
+        *p = '\0';
+        return p;
     }
 
-    if (x > 1000 && x < 10000) {
-        char string[4];
-        char charValue;
-        int value = 0;
-
-        value = x % 10;
-        charValue = value + '0';
-        x = (x - value) / 10;
-        string[3] = charValue;
-
-        value = x % 10;
-        charValue = value + '0';
-        x = (x - value) / 10;
-        string[2] = charValue;
-
-        value = x % 10;
-        charValue = value + '0';
-        x = (x - value) / 10;
-        string[1] = charValue;
-
-        charValue = x + '0';
-        string[0] = charValue;
-        return string;
-    }
-
-    if (x > 10000 && x < 100000) {
-        int size = 5;
-        char string[5];
-        char charValue;
-        int value = 0;
-
-        for (int i = size; i > 0; i--) {
-            value = x % 10;
-            charValue = value + '0';
-            x = (x - value) / 10;
-            string[4] = charValue;
-
-            value = x % 10;
-            charValue = value + '0';
-            x = (x - value) / 10;
-            string[3] = charValue;
-
-            value = x % 10;
-            charValue = value + '0';
-            x = (x - value) / 10;
-            string[2] = charValue;
-
-            value = x % 10;
-            charValue = value + '0';
-            x = (x - value) / 10;
-            string[1] = charValue;
-
-            charValue = x + '0';
-            string[0] = charValue;
-            return string;
-        }
-    }
+    p = intToChar(i / 10, p);
+    *p++ = i % 10 + '0';
+    *p = '\0';
+    return p;
 }
 
 void RobotArm::move(Coordinate3D coordinates, int speed) {
-    // for (unsigned int i = 0; i < 3; i++) {
-    //     goto_coordinates[i] = coordinates[i];
-    // }
-    // hwlib::string<100> test = "Hello world!";
-    // hwlib::string<24> command = "";
-    // command += "G0 X";
-    // command += intToString(coordinates.getX());
-    // command += " Y";
-    // command += intToString(coordinates.getY());
-    // command += " Z";
-    // command += intToString(coordinates.getZ());
-    // command += " F";
-    // command += intToString(speed);
-    // command += "\n";
+
+    char coordinatesAsTextX[10];
+    char coordinatesAsTextY[10];
+    char coordinatesAsTextZ[10];
+    char speedAsText[10];
+    intToChar(coordinates.getX(), coordinatesAsTextX);
+    intToChar(coordinates.getY(), coordinatesAsTextY);
+    intToChar(coordinates.getZ(), coordinatesAsTextZ);
+    intToChar(speed, speedAsText);
 
     strcopy(commandBuffer, "G0 X");
-    strcadd(commandBuffer, intToString(coordinates.getX()));
-    // hwlib::cout << commandBuffer << hwlib::endl;
+    strcadd(commandBuffer, coordinatesAsTextX);
     strcadd(commandBuffer, " Y");
-    strcadd(commandBuffer, intToString(coordinates.getY()));
-    // hwlib::cout << commandBuffer << hwlib::endl;
+    strcadd(commandBuffer, coordinatesAsTextY);
     strcadd(commandBuffer, " Z");
-    strcadd(commandBuffer, intToString(coordinates.getZ()));
-    // hwlib::cout << commandBuffer << hwlib::endl;
+    strcadd(commandBuffer, coordinatesAsTextZ);
     strcadd(commandBuffer, " F");
-    strcadd(commandBuffer, intToString(speed));
-    hwlib::cout << commandBuffer << hwlib::endl;
+    strcadd(commandBuffer, speedAsText);
     strcadd(commandBuffer, "\n");
-    hwlib::cout << commandBuffer << hwlib::endl;
-
-    // hwlib::cout << command << hwlib::endl;
-    hwlib::cout << commandBuffer << hwlib::endl;
 
     if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
         startMsSend = hwlib::now_us() / 1000;
-        // conn << "G0 X" << intToString(coordinates.getX()) << " Y" << intToString(coordinates.getY()) << " Z" <<
-        // intToString(coordinates.getZ() << "F" << intToString(speed) << "\n"; /// Move conn << commandBuffer;
-        conn << command;
+        conn << commandBuffer;
     }
 
     if (conn.available() > 0 && (hwlib::now_us() / 1000) - startMsReceive > 30) {
@@ -153,9 +78,6 @@ void RobotArm::move(Coordinate3D coordinates, int speed) {
         }
     }
 
-    // for (unsigned int i = 0; i < 3; i++) {
-    //     current_coordinates[i] = goto_coordinates[i];
-    // }
     speed = speed;
 }
 
@@ -169,69 +91,17 @@ void RobotArm::determineGCode(int coordinates[3]) {
 }
 
 void RobotArm::determineGCode(Actions action) {
-    // switch (action) {
-    // case Actions::reset:
-    //     // move({200, 0, 100}, speed);
-    //     hwlib::cout << "Resetting" << hwlib::endl;
-    //     break;
-    // default:
-    //     hwlib::cout << "This isn't a legit action" << hwlib::endl;
-    //     xbreak;
-    // }
-}
-
-int RobotArm::getCoordinates(char dimension) {
-    // if (dimension == 'x') {
-    //     return coordinates.getX();
-    // } else if (dimension == 'y') {
-    //     return current_coordinates[1];
-    // } else if (dimension == 'z') {
-    //     return current_coordinates[2];
-    // }
-    return 0;
+    switch (action) {
+    case Actions::reset:
+        // move({200, 0, 100}, speed);
+        hwlib::cout << "Resetting" << hwlib::endl;
+        break;
+    default:
+        hwlib::cout << "This isn't a legit action" << hwlib::endl;
+        break;
+    }
 }
 
 int RobotArm::getSpeed() {
     return speed;
-}
-
-char *RobotArm::strcadd(char *d, const char *s) {
-    // int size = sizeof(d) + sizeof(s);
-    char saved[24];
-    char *saved = d;
-    int counter = 0;
-    // int i = 0;
-
-    hwlib::cout << "Adding stuff" << hwlib::endl;
-
-    for (int i = 0; i < sizeof(d); i++) {
-        saved[i] = d[i];
-        hwlib::cout << d[i];
-        counter++;
-    }
-
-    for (int i = 0; i < sizeof(s); i++) {
-        saved[counter + i] = s[i];
-    }
-
-    // while (*d) {
-    //     *d++ = *d++;
-    // }
-
-    // while (*s) {
-    //     *d++ = *s++;
-    // }
-    // *d = 0;
-    // strcopy(d + sizeof(d), s);
-    return saved;
-}
-
-char *RobotArm::strcopy(char *d, const char *s) {
-    char *saved = d;
-    while (*s) {
-        *d++ = *s++;
-    }
-    *d = 0;
-    hwlib::cout << saved << hwlib::endl;
-    return saved;
 }

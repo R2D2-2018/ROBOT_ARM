@@ -20,8 +20,8 @@ int main() {
     RobotArm uarmSwiftPro;
 
     while (true) {
-        uarmSwiftPro.move(coordinates, 5000);
-        hwlib::wait_ms(400);
+        uarmSwiftPro.move(Coordinate3D(200, 150, 100), 5000);
     }
+
     return 0;
 }
