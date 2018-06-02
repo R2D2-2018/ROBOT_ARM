@@ -73,14 +73,6 @@ class RobotArm {
      */
     void executeAction(Actions action);
     /**
-     * @brief Return the current coordinates
-     *
-     * This function returns the coordinates of where the robot arm is or is moving to.
-     *
-     * @return current_coordinates
-     */
-    int getCoordinates(char dimension);
-    /**
      * @brief Determine G-Code for a desired location.
      *
      *
