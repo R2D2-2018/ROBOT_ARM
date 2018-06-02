@@ -15,8 +15,6 @@ int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
     hwlib::wait_ms(1000);
 
-    Coordinate3D coordinates(200, 150, 100);
-
     RobotArm uarmSwiftPro;
 
     while (true) {
