@@ -9,39 +9,38 @@
 RobotArm::RobotArm() : conn(115200, UARTController::ONE) {
 }
 
-char *RobotArm::strcadd(char *d, const char *s) {
+char *RobotArm::stradd(char *dest, const char *src) {
     size_t i, j;
-    for (i = 0; d[i] != '\0'; i++) {
+    for (i = 0; dest[i] != '\0'; i++) {
     }
-    for (j = 0; s[j] != '\0'; j++) {
-        d[i + j] = s[j];
+    for (j = 0; src[j] != '\0'; j++) {
+        dest[i + j] = src[j];
     }
-    d[i + j] = '\0';
-    return d;
+    dest[i + j] = '\0';
+    return dest;
 }
 
-char *RobotArm::strcopy(char *d, const char *s) {
-    char *saved = d;
-    while (*s) {
-        *d++ = *s++;
+char *RobotArm::strcopy(char *dest, const char *src) {
+    char *saved = dest;
+    while (*src) {
+        *dest++ = *src++;
     }
-    *d++ = '\0';
-    *d = 0;
+    *dest++ = '\0';
+    *dest = 0;
     return saved;
 }
 
-char *RobotArm::intToChar(int i, char *p) {
-    if (i / 10 == 0) {
-        // No more digits.
-        *p++ = i + '0';
-        *p = '\0';
-        return p;
+char *RobotArm::intToChar(int number, char *dest) {
+    if (number / 10 == 0) {
+        *dest++ = number + '0';
+        *dest = '\0';
+        return dest;
     }
 
-    p = intToChar(i / 10, p);
-    *p++ = i % 10 + '0';
-    *p = '\0';
-    return p;
+    dest = intToChar(number / 10, dest);
+    *dest++ = number % 10 + '0';
+    *dest = '\0';
+    return dest;
 }
 
 void RobotArm::move(Coordinate3D coordinates, int speed) {
@@ -56,14 +55,14 @@ void RobotArm::move(Coordinate3D coordinates, int speed) {
     intToChar(speed, speedAsText);
 
     strcopy(commandBuffer, "G0 X");
-    strcadd(commandBuffer, coordinatesAsTextX);
-    strcadd(commandBuffer, " Y");
-    strcadd(commandBuffer, coordinatesAsTextY);
-    strcadd(commandBuffer, " Z");
-    strcadd(commandBuffer, coordinatesAsTextZ);
-    strcadd(commandBuffer, " F");
-    strcadd(commandBuffer, speedAsText);
-    strcadd(commandBuffer, "\n");
+    stradd(commandBuffer, coordinatesAsTextX);
+    stradd(commandBuffer, " Y");
+    stradd(commandBuffer, coordinatesAsTextY);
+    stradd(commandBuffer, " Z");
+    stradd(commandBuffer, coordinatesAsTextZ);
+    stradd(commandBuffer, " F");
+    stradd(commandBuffer, speedAsText);
+    stradd(commandBuffer, "\n");
 
     if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
         startMsSend = hwlib::now_us() / 1000;
@@ -93,7 +92,6 @@ void RobotArm::determineGCode(int coordinates[3]) {
 void RobotArm::determineGCode(Actions action) {
     switch (action) {
     case Actions::reset:
-        // move({200, 0, 100}, speed);
         hwlib::cout << "Resetting" << hwlib::endl;
         break;
     default:

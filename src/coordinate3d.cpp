@@ -20,3 +20,15 @@ int Coordinate3D::getY() {
 int Coordinate3D::getZ() {
     return z;
 }
+
+void Coordinate3D::setX(int value) {
+    x = value;
+}
+
+void Coordinate3D::setY(int value) {
+    y = value;
+}
+
+void Coordinate3D::setZ(int value) {
+    z = value;
+}

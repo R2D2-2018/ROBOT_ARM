@@ -35,25 +35,38 @@ class RobotArm {
     /**
      * @brief intToChar function
      *
-     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'p' parameter
+     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
+     * parameter
      *
-     * @param i : int
-     * @param p  : char *
+     * @param x : int
+     * @param dest  : char *
      * @return char*
      */
-    char *intToChar(int i, char *p);
+    char *intToChar(int x, char *dest);
 
     /**
-     * @brief strcpy function
+     * @brief strcopy function
      *
-     * This function is purely here because the STD variant doesn't work. It's a literal copy.
+     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcpy. dest = destination. src =
+     * source.
      *
-     * @param d : char *
-     * @param s : const char *
+     * @param dest : char *
+     * @param src : const char *
      * @return char*
      */
-    char *strcopy(char *d, const char *s);
-    char *strcadd(char *d, const char *s);
+    char *strcopy(char *dest, const char *src);
+
+    /**
+     * @brief stradd function
+     *
+     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcat. dest = destination. src =
+     * source.
+     *
+     * @param dest : char *
+     * @param src : const char *
+     * @return char*
+     */
+    char *stradd(char *dest, const char *src);
     /**
      * @brief Move the arm to the set coordinates
      *
