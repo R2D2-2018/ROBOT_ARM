@@ -54,7 +54,7 @@ class RobotArm {
     /**
      * @brief Send a G-Code to the uArm
      *
-     * This is the function that send the G-Code to the uArm.
+     * This is the function that sends the G-Code to the uArm.
      *
      * @param command
      */
@@ -70,11 +70,10 @@ class RobotArm {
     /**
      * @brief Determine G-Code for a desired location.
      *
-     * Determine G-Code for a desired location.
+     * Determine G-Code for a desired location. This G-Code will be stored in commandBuffer.
      *
      * @param coordinates : Coordinate3D
      * @param speed : int
-     * @return g-code : char *
      */
     void determineGCode(Coordinate3D coordinates, int speed);
     /**
