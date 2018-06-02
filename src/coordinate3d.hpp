@@ -20,6 +20,17 @@ class Coordinate3D {
      * The default constructor to create a new Coordinate3D object.
      *
      */
+    Coordinate3D();
+    /**
+     * @brief Construct a new Coordinate3D object
+     *
+     * The default constructor to create a new Coordinate3D object.
+     *
+     * @param x : int
+     * @param y : int
+     * @param z : int
+     *
+     */
     Coordinate3D(int x, int y, int z);
     /**
      * @brief This function returns the X value of the coordinate
