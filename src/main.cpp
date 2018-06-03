@@ -19,6 +19,7 @@ int main() {
 
     while (true) {
         uarmSwiftPro.move(Coordinate3D(200, 150, 100), 5000);
+        uarmSwiftPro.executeAction("M2231 V1\n");
     }
 
     return 0;
