@@ -7,10 +7,11 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
+#include <cstring>
 #include "coordinate3d.hpp"
 #include "uart_connection.hpp"
 #include "wrap-hwlib.hpp"
-#include <cstring>
+
 
 class RobotArm {
   private:
@@ -21,9 +22,9 @@ class RobotArm {
     char commandBuffer[25];
 
     int speed;
-    long startMsReceive = hwlib::now_us() / 1000;
-    long startMsSend = hwlib::now_us() / 1000;
-    UARTConnection conn;
+    //long startMsReceive = hwlib::now_us() / 1000;
+    //long startMsSend = hwlib::now_us() / 1000;
+    UARTConnection uartConn;
 
   public:
     /**
@@ -66,7 +67,7 @@ class RobotArm {
      *
      * @param action : char *
      */
-    void executeAction(const char *action);
+    void executeAction(const char *newAction);
     /**
      * @brief Determine G-Code for a desired location.
      *
@@ -83,7 +84,7 @@ class RobotArm {
      *
      * @param[Actions]] action
      */
-    void determineGCode(Actions action);
+    void determineGCode(Actions newAction);
     /**
      * @brief Return the speed
      *
@@ -103,6 +104,30 @@ class RobotArm {
      * @return char*
      */
     char *intToChar(int x, char *dest);
+
+    /**
+     * @brief Receive Gcode string from the uArm Swift Pro using UART.
+     *
+     * We continuely poll the uArm Swift Pro for new serial data. If the read timeout is reached,
+     * we will stop the polling and return 0 (no characters received).
+     *
+     * @param response Gcode response string.
+     * @param responseSize Gcode response string size.
+     * @param readTimeout UART receiver timeout in milliseconds.
+     * @return int Amount of character read (including \0).
+     */
+    int receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout = 50);
+
+    /**
+     * @brief Check if the uArm Swift Pro is connected.
+     *
+     * By trying to receive the firmware version, we determine if the uArm Swift Pro is connected.
+     * If the arm is not connected, a serial receive timeout will occur.
+     *
+     * @return true Device connected.
+     * @return false Device is not connected.
+     */
+    bool isConnected();
 
     /**
      * @brief strcopy function
