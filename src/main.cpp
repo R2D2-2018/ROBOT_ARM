@@ -15,7 +15,7 @@ int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
     hwlib::wait_ms(1000);
 
-    RobotArm uarmSwiftPro;
+    RobotArm::RobotArm uarmSwiftPro;
 
     while (true) {
         uarmSwiftPro.move(Coordinate3D(200, 150, 100), 5000);

@@ -6,26 +6,16 @@
  */
 #include "robot_arm.hpp"
 
+namespace RobotArm {
+
 RobotArm::RobotArm() : conn(115200, UARTController::ONE) {
 }
 
 void RobotArm::sendGCodeToArm(const char *command) {
-    if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
-        startMsSend = hwlib::now_us() / 1000;
-        hwlib::cout << command << hwlib::endl;
-        conn << command;
-    }
-
-    if (conn.available() > 0 && (hwlib::now_us() / 1000) - startMsReceive > 30) {
-        startMsReceive = hwlib::now_us() / 1000;
-
-        for (unsigned int i = 0; i < conn.available(); i++) {
-            hwlib::cout << (char)conn.receive();
-        }
-    }
+    conn << command;
 }
 
-void RobotArm::move(Coordinate3D coordinates, int speed) {
+void RobotArm::move(const Coordinate3D coordinates, int speed) {
     speed = speed;
     determineGCode(coordinates, speed);
 
@@ -44,15 +34,15 @@ void RobotArm::executeAction(Actions action) {
     action = action;
 }
 
-void RobotArm::determineGCode(Coordinate3D coordinates, int speed) {
+void RobotArm::determineGCode(const Coordinate3D coordinates, int speed) {
     char coordinatesAsTextX[10];
     char coordinatesAsTextY[10];
     char coordinatesAsTextZ[10];
     char speedAsText[10];
 
-    intToChar(coordinates.getX(), coordinatesAsTextX);
-    intToChar(coordinates.getY(), coordinatesAsTextY);
-    intToChar(coordinates.getZ(), coordinatesAsTextZ);
+    intToChar(coordinates.x, coordinatesAsTextX);
+    intToChar(coordinates.y, coordinatesAsTextY);
+    intToChar(coordinates.z, coordinatesAsTextZ);
     intToChar(speed, speedAsText);
 
     strcopy(commandBuffer, "G0 X");
@@ -66,7 +56,7 @@ void RobotArm::determineGCode(Coordinate3D coordinates, int speed) {
     stradd(commandBuffer, "\n");
 }
 
-void RobotArm::determineGCode(Actions action) {
+void RobotArm::determineGCode(const Actions action) {
     switch (action) {
     case Actions::reset:
         hwlib::cout << "Resetting" << hwlib::endl;
@@ -113,4 +103,6 @@ char *RobotArm::intToChar(int number, char *dest) {
     *dest++ = number % 10 + '0';
     *dest = '\0';
     return dest;
+}
+
 }
