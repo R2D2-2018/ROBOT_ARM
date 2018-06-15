@@ -26,6 +26,8 @@ class RobotArm {
     //long startMsSend = hwlib::now_us() / 1000;
     UARTConnection uartConn;
 
+    int getCharPositionStr(const char* str, const char search, const int searchStart = 0) const;
+
   public:
     /**
      * @brief Construct a new Robot Arm
@@ -93,6 +95,9 @@ class RobotArm {
      * @return speed
      */
     int getSpeed();
+
+    Coordinate3D getPosition();
+
     /**
      * @brief intToChar function
      *
@@ -104,6 +109,8 @@ class RobotArm {
      * @return char*
      */
     char *intToChar(int x, char *dest);
+
+    int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
 
     /**
      * @brief Receive Gcode string from the uArm Swift Pro using UART.

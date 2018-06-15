@@ -32,6 +32,43 @@ void RobotArm::move(Coordinate3D coordinates, int speed) {
     sendGCodeToArm(commandBuffer);
 }
 
+Coordinate3D RobotArm::getPosition() {
+    char response[40];
+    uartConn << "#n P2220\n";
+
+    receiveGcodeResponse(response, 40);
+
+    Coordinate3D coordinate;
+    int posXStart, posYStart, posZStart;
+    int posXEnd, posYEnd, posZEnd;
+
+    /// Parse the response to get the x, y and z positions.
+
+    if (!(posXStart = getCharPositionStr(response, 'X'))) {
+        if (!(posXEnd = getCharPositionStr(response, ' ', posXStart))) {
+            coordinate.x = charToInt(response, posXStart, posXEnd);
+        }
+    }
+    
+    if (!(posYStart = getCharPositionStr(response, 'X'))) {
+        if (!(posYEnd = getCharPositionStr(response, ' ', posYStart))) {
+            coordinate.y = charToInt(response, posYStart, posYEnd);
+        }
+    }
+
+    if (!(posZStart = getCharPositionStr(response, 'X'))) {
+        if (!(posZEnd = getCharPositionStr(response, '\n', posZStart))) {
+            coordinate.z = charToInt(response, posYStart, posYEnd);
+        }
+    }
+
+
+    
+
+
+    return coordinate;
+}
+
 void RobotArm::executeAction(const char *newAction) {
     char command[15];
     //strcopy(command, action);
@@ -157,7 +194,7 @@ char *RobotArm::stradd(char *dest, const char *src) {
 
 char *RobotArm::strcopy(char *dest, const char *src) {
     char *saved = dest;
-    while (*src != '\0') { // *src
+    while (*src) {
         *dest++ = *src++;
     }
 
@@ -178,4 +215,34 @@ char *RobotArm::intToChar(int number, char *dest) {
     *dest++ = (number % 10) + '0';
     *dest = '\0';
     return dest;
+}
+
+int RobotArm::charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const {
+    int result = 0;
+
+    for (unsigned int i = posStart; i < posEnd; i++) {
+        char digit = static_cast<char>(str[i]);
+
+        result *= 10;
+        result += digit;
+    }
+
+    return result;
+}
+
+int RobotArm::getCharPositionStr(const char* str, const char search, const int searchStart) const {
+    unsigned int strIndex = 0;
+
+    const char *strSearchStart = str + searchStart;
+
+    while (*strSearchStart != '\0') {
+        if (*str == search) {
+            return strIndex;
+        }
+
+        strSearchStart++;
+        strIndex++;
+    }
+
+    return -1;
 }
