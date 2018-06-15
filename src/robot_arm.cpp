@@ -58,7 +58,7 @@ Coordinate3D RobotArm::getPosition() {
 
     if (!(posZStart = getCharPositionStr(response, 'X'))) {
         if (!(posZEnd = getCharPositionStr(response, '\n', posZStart))) {
-            coordinate.z = charToInt(response, posYStart, posYEnd);
+            coordinate.z = charToInt(response, posYStart, posZEnd);
         }
     }
 
@@ -88,9 +88,9 @@ void RobotArm::determineGCode(Coordinate3D coordinates, int speed) {
     char coordinatesAsTextZ[10];
     char speedAsText[10];
 
-    intToChar(coordinates.getX(), coordinatesAsTextX);
-    intToChar(coordinates.getY(), coordinatesAsTextY);
-    intToChar(coordinates.getZ(), coordinatesAsTextZ);
+    intToChar(coordinates.x, coordinatesAsTextX);
+    intToChar(coordinates.y, coordinatesAsTextY);
+    intToChar(coordinates.z, coordinatesAsTextZ);
     intToChar(speed, speedAsText);
 
     strcopy(commandBuffer, "G0 X");
