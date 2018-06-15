@@ -13,6 +13,7 @@ void RobotArm::sendGCodeToArm(const char *command) {
     //if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
         //startMsSend = hwlib::now_us() / 1000;
         //hwlib::cout << command << hwlib::endl;
+        
         uartConn << command;
     //}
 
@@ -43,28 +44,23 @@ Coordinate3D RobotArm::getPosition() {
     int posXEnd, posYEnd, posZEnd;
 
     /// Parse the response to get the x, y and z positions.
-
-    if (!(posXStart = getCharPositionStr(response, 'X'))) {
-        if (!(posXEnd = getCharPositionStr(response, ' ', posXStart))) {
-            coordinate.x = charToInt(response, posXStart, posXEnd);
+    if ((posXStart = getCharPositionStr(response, 'X')) != -1) {
+        if ((posXEnd = getCharPositionStr(response, '.', posXStart))) {
+            coordinate.x = charToInt(response, posXStart + 1, posXEnd);
         }
     }
     
-    if (!(posYStart = getCharPositionStr(response, 'X'))) {
-        if (!(posYEnd = getCharPositionStr(response, ' ', posYStart))) {
-            coordinate.y = charToInt(response, posYStart, posYEnd);
+    if ((posYStart = getCharPositionStr(response, 'Y')) != -1) {
+        if ((posYEnd = getCharPositionStr(response, '.', posYStart))) {
+            coordinate.y = charToInt(response, posYStart + 1, posYEnd);
         }
     }
 
-    if (!(posZStart = getCharPositionStr(response, 'X'))) {
-        if (!(posZEnd = getCharPositionStr(response, '\n', posZStart))) {
-            coordinate.z = charToInt(response, posYStart, posZEnd);
+    if ((posZStart = getCharPositionStr(response, 'Z')) != -1) {
+        if ((posZEnd = getCharPositionStr(response, '.', posZStart))) {
+            coordinate.z = charToInt(response, posZStart + 1, posZEnd);
         }
     }
-
-
-    
-
 
     return coordinate;
 }
@@ -94,13 +90,18 @@ void RobotArm::determineGCode(Coordinate3D coordinates, int speed) {
     intToChar(speed, speedAsText);
 
     strcopy(commandBuffer, "G0 X");
+    
     stradd(commandBuffer, coordinatesAsTextX);
+    
     stradd(commandBuffer, " Y");
     stradd(commandBuffer, coordinatesAsTextY);
+    
     stradd(commandBuffer, " Z");
     stradd(commandBuffer, coordinatesAsTextZ);
+    
     stradd(commandBuffer, " F");
     stradd(commandBuffer, speedAsText);
+    
     stradd(commandBuffer, "\n");
 }
 
@@ -184,6 +185,8 @@ bool RobotArm::isConnected() {
 char *RobotArm::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
+    for (i = 0; dest[i] != '\0'; i++);
+
     for (j = 0; src[j] != '\0'; j++) {
         dest[i + j] = src[j];
     }
@@ -221,7 +224,7 @@ int RobotArm::charToInt(const char *str, const unsigned int posStart, const unsi
     int result = 0;
 
     for (unsigned int i = posStart; i < posEnd; i++) {
-        char digit = static_cast<char>(str[i]);
+        char digit = static_cast<char>(str[i] - '0');
 
         result *= 10;
         result += digit;
@@ -231,12 +234,12 @@ int RobotArm::charToInt(const char *str, const unsigned int posStart, const unsi
 }
 
 int RobotArm::getCharPositionStr(const char* str, const char search, const int searchStart) const {
-    unsigned int strIndex = 0;
+    unsigned int strIndex = searchStart;
 
     const char *strSearchStart = str + searchStart;
 
     while (*strSearchStart != '\0') {
-        if (*str == search) {
+        if (*strSearchStart == search) {
             return strIndex;
         }
 

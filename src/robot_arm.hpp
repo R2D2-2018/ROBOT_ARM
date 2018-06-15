@@ -96,6 +96,15 @@ class RobotArm {
      */
     int getSpeed();
 
+    /**
+     * @brief Get the current position of the arm.
+     * 
+     * Note that only the position is correctly received when the arm is NOT moving.
+     * This may not be resolvable from the Due size, as the firmware running on the uArm is a black box.
+     * The firmware may not handle serial and motor actions concurrent.
+     * 
+     * @return Coordinate3D Current arm position. X, Y or Z is set to zero if something failed during parsing.
+     */
     Coordinate3D getPosition();
 
     /**
