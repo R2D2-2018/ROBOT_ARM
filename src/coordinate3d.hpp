@@ -11,9 +11,11 @@ namespace RobotArm {
 
 struct Coordinate3D {
   public:
-    int x;
-    int y;
-    int z;
+    /**
+     * @brief Parameters describing a three dimensional location within space.
+     * 
+     */
+    int x, y, z;
 
     /**
      * @brief Construct a new Coordinate3D object
@@ -35,32 +37,32 @@ struct Coordinate3D {
     Coordinate3D(const int x, const int y, const int z);
 
     /**
-     * @brief Used to add coordinate.
+     * @brief Used to add coordinates.
      *
      * @param coord Coordinate.
      */
     void operator+=(const Coordinate3D &coord);
 
     /**
-     * @brief Used to substract coordinate.
+     * @brief Used to substract coordinates.
      *
      * @param coord Coordinate.
      */
     void operator-=(const Coordinate3D &coord);
 
     /**
-     * @brief Operator+
+     * @brief The addition operator of two Coordinate3D objects.
      *
-     * @param coord
-     * @return Coordinate3D
+     * @param coord Constatn coordinate to add.
+     * @return Coordinate3D New Coordinate3D object as the result of the addition.
      */
     Coordinate3D operator+(const Coordinate3D &coord) const;
 
     /**
-     * @brief
+     * @brief The substract operator of two Coordinate3D objects.
      *
-     * @param coord
-     * @return Coordinate3D
+     * @param coord Constant coordinate to substract.
+     * @return Coordinate3D New Coordinate3D object as the result of the substraction.
      */
     Coordinate3D operator-(const Coordinate3D &coord) const;
 };

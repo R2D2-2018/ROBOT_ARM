@@ -16,17 +16,47 @@ namespace RobotArm {
 
 class RobotArm {
   private:
+    /**
+     * @brief Robot arm actions.
+     * 
+     */
     enum class Actions { reset };
 
+    /**
+     * @brief Current action.
+     * 
+     */
     Actions action;
 
+    /**
+     * @brief Arm command buffer.
+     * 
+     */
     char commandBuffer[25];
 
-    int speed;
-    // long startMsReceive = hwlib::now_us() / 1000;
-    // long startMsSend = hwlib::now_us() / 1000;
+    /**
+     * @brief Arm motors speed.
+     * 
+     */
+    unsigned int speed;
+  
+    /**
+     * @brief UART connection library instance.
+     * 
+     */
     UARTConnection uartConn;
 
+    /**
+     * @brief Get the index of a character within a string.
+     * 
+     * Optionally, the user can give a start position of the search.
+     * Note that all strings must be null terminated!
+     * 
+     * @param str Search string.
+     * @param search Character to search.
+     * @param searchStart Start index of the search.
+     * @return int Index position.
+     */
     int getCharPositionStr(const char *str, const char search, const int searchStart = 0) const;
 
   public:
@@ -37,40 +67,40 @@ class RobotArm {
      *
      */
     RobotArm();
+
     /**
-     * @brief Move the arm to the set coordinates
-     *
+     * @brief Move the arm to a new setpoint.
+     * 
      * This function will take an array existing of 3 integer values and an integer that resembles the speed. These parameters
      * will me transformed into a G-Code. This will be send to the uArm using the uart_connection class.
-     *
-     * @param coordinates : Coordinate3D
-     * @param speed : int
+     * 
+     * @param coordinates New target Coordinate3D.
+     * @param speed Motor speed to reach Coordinate3D.
      */
-    void move(const Coordinate3D coordinates, int speed);
+    void move(const Coordinate3D coordinates, unsigned int speed);
     /**
      * @brief Execute a desired action.
-     *
-     *
      *
      * @param action : Actions
      */
     void executeAction(const Actions action);
     /**
-     * @brief Send a G-Code to the uArm
+     * @brief Send a G-Code to the uArm.
      *
      * This is the function that sends the G-Code to the uArm.
      *
      * @param command
      */
     void sendGCodeToArm(const char *command);
+
     /**
-     * @brief Execute a desired action by sending the G-Code
-     *
+     * @brief Execute a desired action by sending the G-Code.
+     * 
      * With this function, G-Codes can be passed as parameter and control the uArm.
-     *
-     * @param action : char *
+     * 
+     * @param action New action.
      */
-    void executeAction(const char *newAction);
+    void executeAction(const char *action);
     /**
      * @brief Determine G-Code for a desired location.
      *
@@ -80,12 +110,11 @@ class RobotArm {
      * @param speed : int
      */
     void determineGCode(const Coordinate3D coordinates, int speed);
+    
     /**
-     * @brief Determine G-Code for a desired action.
-     *
-     * Determine G-Code for a desired action.
-     *
-     * @param[Actions]] action
+     * @brief Determine G-Code for desired action.
+     * 
+     * @param action Action.
      */
     void determineGCode(const Actions action);
     /**

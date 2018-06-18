@@ -8,14 +8,13 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {
-}
+RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {}
 
 void RobotArm::sendGCodeToArm(const char *command) {
     uartConn << command;
 }
 
-void RobotArm::move(Coordinate3D coordinates, int speed) {
+void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
     this->speed = speed;
     determineGCode(coordinates, speed);
 
