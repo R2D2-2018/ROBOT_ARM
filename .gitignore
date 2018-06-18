@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Directories
+build/*
+build_test/*
+.vscode/*
+*.code-workspace
+
+# Other
