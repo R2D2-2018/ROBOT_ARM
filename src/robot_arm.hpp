@@ -13,6 +13,8 @@
 #include "wrap-hwlib.hpp"
 
 
+namespace RobotArm {
+
 class RobotArm {
   private:
     enum class Actions { reset };
@@ -45,7 +47,7 @@ class RobotArm {
      * @param coordinates : Coordinate3D
      * @param speed : int
      */
-    void move(Coordinate3D coordinates, int speed);
+    void move(const Coordinate3D coordinates, int speed);
     /**
      * @brief Execute a desired action.
      *
@@ -53,7 +55,7 @@ class RobotArm {
      *
      * @param action : Actions
      */
-    void executeAction(Actions action);
+    void executeAction(const Actions action);
     /**
      * @brief Send a G-Code to the uArm
      *
@@ -78,7 +80,7 @@ class RobotArm {
      * @param coordinates : Coordinate3D
      * @param speed : int
      */
-    void determineGCode(Coordinate3D coordinates, int speed);
+    void determineGCode(const Coordinate3D coordinates, int speed);
     /**
      * @brief Determine G-Code for a desired action.
      *
@@ -86,7 +88,7 @@ class RobotArm {
      *
      * @param[Actions]] action
      */
-    void determineGCode(Actions newAction);
+    void determineGCode(const Actions action);
     /**
      * @brief Return the speed
      *
@@ -179,5 +181,7 @@ class RobotArm {
      */
     char *stradd(char *dest, const char *src);
 };
+
+} // namespace RobotArm
 
 #endif // ROBOTARM_HPP

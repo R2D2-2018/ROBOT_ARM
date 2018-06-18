@@ -1,11 +1,13 @@
 /**
  * @file
  * @brief     This class contains the Coordinate3D struct
- * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen
+ * @author    Jeroen van Hattem, Jeffrey de Waal and Wiebe van Breukelen
  * @license   See LICENSE
  */
 #ifndef COORDINATE3D_HPP
 #define COORDINATE3D_HPP
+
+namespace RobotArm {
 
 struct Coordinate3D {
   public:
@@ -62,5 +64,7 @@ struct Coordinate3D {
      */
     Coordinate3D operator-(const Coordinate3D &coord) const;
 };
+
+}
 
 #endif // COORDINATE3D_HPP

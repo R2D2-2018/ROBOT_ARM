@@ -15,7 +15,7 @@ int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
     hwlib::wait_ms(1000);
 
-    RobotArm uarmSwiftPro;
+    RobotArm::RobotArm uarmSwiftPro;
 
     if (!uarmSwiftPro.isConnected()) {
         hwlib::cout << "Please connect the uArm Swift Pro" << hwlib::endl;

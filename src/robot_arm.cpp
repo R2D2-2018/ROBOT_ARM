@@ -6,6 +6,8 @@
  */
 #include "robot_arm.hpp"
 
+namespace RobotArm {
+
 RobotArm::RobotArm() :  uartConn(115200, UARTController::ONE) {}
 
 void RobotArm::sendGCodeToArm(const char *command) {
@@ -72,7 +74,7 @@ void RobotArm::executeAction(Actions newAction) {
     action = newAction;
 }
 
-void RobotArm::determineGCode(Coordinate3D coordinates, int speed) {
+void RobotArm::determineGCode(const Coordinate3D coordinates, int speed) {
     char coordinatesAsTextX[10];
     char coordinatesAsTextY[10];
     char coordinatesAsTextZ[10];
@@ -99,7 +101,7 @@ void RobotArm::determineGCode(Coordinate3D coordinates, int speed) {
     stradd(commandBuffer, "\n");
 }
 
-void RobotArm::determineGCode(Actions action) {
+void RobotArm::determineGCode(const Actions action) {
     switch (action) {
     case Actions::reset:
         hwlib::cout << "Resetting" << hwlib::endl;
@@ -242,4 +244,6 @@ int RobotArm::getCharPositionStr(const char* str, const char search, const int s
     }
 
     return -1;
+}
+
 }

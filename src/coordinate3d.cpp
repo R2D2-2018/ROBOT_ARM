@@ -6,6 +6,8 @@
  */
 #include "coordinate3d.hpp"
 
+namespace RobotArm {
+
 Coordinate3D::Coordinate3D() : x(0), y(0), z(0) {}
 
 Coordinate3D::Coordinate3D(const int x, const int y, const int z) : x(x), y(y), z(z) {}
@@ -36,4 +38,6 @@ Coordinate3D Coordinate3D::operator-(const Coordinate3D &coord) const {
     newCoord -= coord;
 
     return newCoord;
+}
+
 }
