@@ -28,12 +28,12 @@ int main() {
     hwlib::wait_ms(2000);
 
     while (true) {
-        uarmSwiftPro.move(Coordinate3D(200, 200, 100), 5000);
+        uarmSwiftPro.move(RobotArm::Coordinate3D(200, 200, 100), 5000);
         //uarmSwiftPro.executeAction("M2231 V1\n");
 
         hwlib::wait_ms(500);
 
-        Coordinate3D coordinate = uarmSwiftPro.getPosition();
+        RobotArm::Coordinate3D coordinate = uarmSwiftPro.getPosition();
 
         hwlib::cout << coordinate.x << ", " << coordinate.y << ", " << coordinate.z << hwlib::endl;
         
