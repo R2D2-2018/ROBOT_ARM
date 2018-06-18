@@ -8,7 +8,8 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm() :  uartConn(115200, UARTController::ONE) {}
+RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {
+}
 
 void RobotArm::sendGCodeToArm(const char *command) {
     uartConn << command;
@@ -23,7 +24,8 @@ void RobotArm::move(Coordinate3D coordinates, int speed) {
 
 Coordinate3D RobotArm::getPosition() {
     char response[40];
-    uartConn << "#n P2220\n"; /// See Goode commands on page 26 developer guide - http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
+    uartConn << "#n P2220\n"; /// See Goode commands on page 26 developer guide -
+                              /// http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
 
     receiveGcodeResponse(response, 40);
 
@@ -43,7 +45,7 @@ Coordinate3D RobotArm::getPosition() {
             coordinate.x = charToInt(response, posXStart + 1, posXEnd);
         }
     }
-    
+
     /// Parse the response to get the y position.
     if ((posYStart = getCharPositionStr(response, 'Y')) != -1) {
         if ((posYEnd = getCharPositionStr(response, '.', posYStart))) {
@@ -63,7 +65,7 @@ Coordinate3D RobotArm::getPosition() {
 
 void RobotArm::executeAction(const char *newAction) {
     char command[15];
-    //strcopy(command, action);
+    // strcopy(command, action);
     strcopy(command, newAction);
     stradd(command, "\n");
 
@@ -86,18 +88,18 @@ void RobotArm::determineGCode(const Coordinate3D coordinates, int speed) {
     intToChar(speed, speedAsText);
 
     strcopy(commandBuffer, "G0 X");
-    
+
     stradd(commandBuffer, coordinatesAsTextX);
-    
+
     stradd(commandBuffer, " Y");
     stradd(commandBuffer, coordinatesAsTextY);
-    
+
     stradd(commandBuffer, " Z");
     stradd(commandBuffer, coordinatesAsTextZ);
-    
+
     stradd(commandBuffer, " F");
     stradd(commandBuffer, speedAsText);
-    
+
     stradd(commandBuffer, "\n");
 }
 
@@ -181,7 +183,8 @@ bool RobotArm::isConnected() {
 char *RobotArm::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
-    for (i = 0; dest[i] != '\0'; i++);
+    for (i = 0; dest[i] != '\0'; i++)
+        ;
 
     for (j = 0; src[j] != '\0'; j++) {
         dest[i + j] = src[j];
@@ -229,7 +232,7 @@ int RobotArm::charToInt(const char *str, const unsigned int posStart, const unsi
     return result;
 }
 
-int RobotArm::getCharPositionStr(const char* str, const char search, const int searchStart) const {
+int RobotArm::getCharPositionStr(const char *str, const char search, const int searchStart) const {
     unsigned int strIndex = searchStart;
 
     const char *strSearchStart = str + searchStart;
@@ -246,4 +249,4 @@ int RobotArm::getCharPositionStr(const char* str, const char search, const int s
     return -1;
 }
 
-}
+} // namespace RobotArm

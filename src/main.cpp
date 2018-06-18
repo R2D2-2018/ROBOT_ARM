@@ -20,7 +20,8 @@ int main() {
     if (!uarmSwiftPro.isConnected()) {
         hwlib::cout << "Please connect the uArm Swift Pro" << hwlib::endl;
 
-        while (!uarmSwiftPro.isConnected()) hwlib::wait_ms(200);
+        while (!uarmSwiftPro.isConnected())
+            hwlib::wait_ms(200);
     }
 
     hwlib::cout << "uArm Swift Pro is connected!" << hwlib::endl;
@@ -29,14 +30,13 @@ int main() {
 
     while (true) {
         uarmSwiftPro.move(RobotArm::Coordinate3D(200, 200, 100), 5000);
-        //uarmSwiftPro.executeAction("M2231 V1\n");
+        // uarmSwiftPro.executeAction("M2231 V1\n");
 
         hwlib::wait_ms(500);
 
         RobotArm::Coordinate3D coordinate = uarmSwiftPro.getPosition();
 
         hwlib::cout << coordinate.x << ", " << coordinate.y << ", " << coordinate.z << hwlib::endl;
-        
     }
 
     return 0;

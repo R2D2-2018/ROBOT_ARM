@@ -7,11 +7,10 @@
 #ifndef ROBOTARM_HPP
 #define ROBOTARM_HPP
 
-#include <cstring>
 #include "coordinate3d.hpp"
 #include "uart_connection.hpp"
 #include "wrap-hwlib.hpp"
-
+#include <cstring>
 
 namespace RobotArm {
 
@@ -24,11 +23,11 @@ class RobotArm {
     char commandBuffer[25];
 
     int speed;
-    //long startMsReceive = hwlib::now_us() / 1000;
-    //long startMsSend = hwlib::now_us() / 1000;
+    // long startMsReceive = hwlib::now_us() / 1000;
+    // long startMsSend = hwlib::now_us() / 1000;
     UARTConnection uartConn;
 
-    int getCharPositionStr(const char* str, const char search, const int searchStart = 0) const;
+    int getCharPositionStr(const char *str, const char search, const int searchStart = 0) const;
 
   public:
     /**
@@ -100,11 +99,11 @@ class RobotArm {
 
     /**
      * @brief Get the current position of the arm.
-     * 
+     *
      * Note that only the position is correctly received when the arm is NOT moving.
      * This may not be resolvable from the Due size, as the firmware running on the uArm is a black box.
      * The firmware may not handle serial and motor actions concurrent.
-     * 
+     *
      * @return Coordinate3D Current arm position. X, Y or Z is set to zero if something failed during parsing.
      */
     Coordinate3D getPosition();
@@ -123,13 +122,13 @@ class RobotArm {
 
     /**
      * @brief Convert a string to a integer.
-     * 
+     *
      * This method only strings containing integers, like "12345". We cast it to a 12345 integer.
-     * 
+     *
      * @param str Input string.
-     * @param posStart 
-     * @param posEnd 
-     * @return int char 
+     * @param posStart
+     * @param posEnd
+     * @return int char
      */
     int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
 

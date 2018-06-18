@@ -27,7 +27,7 @@ struct Coordinate3D {
      * @brief Construct a new Coordinate3D object
      *
      * The default constructor to create a new Coordinate3D object.
-     * 
+     *
      * @param x X constant
      * @param y Y constant
      * @param z Z constant
@@ -36,35 +36,35 @@ struct Coordinate3D {
 
     /**
      * @brief Used to add coordinate.
-     * 
+     *
      * @param coord Coordinate.
      */
     void operator+=(const Coordinate3D &coord);
 
     /**
      * @brief Used to substract coordinate.
-     * 
+     *
      * @param coord Coordinate.
      */
     void operator-=(const Coordinate3D &coord);
 
     /**
      * @brief Operator+
-     * 
-     * @param coord 
-     * @return Coordinate3D 
+     *
+     * @param coord
+     * @return Coordinate3D
      */
     Coordinate3D operator+(const Coordinate3D &coord) const;
 
     /**
-     * @brief 
-     * 
-     * @param coord 
-     * @return Coordinate3D 
+     * @brief
+     *
+     * @param coord
+     * @return Coordinate3D
      */
     Coordinate3D operator-(const Coordinate3D &coord) const;
 };
 
-}
+} // namespace RobotArm
 
 #endif // COORDINATE3D_HPP
