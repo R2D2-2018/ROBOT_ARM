@@ -26,7 +26,6 @@ set (sources
     src/libc-stub.cpp
     src/main.cpp
     src/robot_arm.cpp
-	src/settings.cpp
 	src/uart_connection.cpp
     src/wrap-hwlib.cpp
 )    
