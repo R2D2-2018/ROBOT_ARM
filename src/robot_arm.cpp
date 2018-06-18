@@ -64,7 +64,7 @@ Coordinate3D RobotArm::getPosition() {
 
 void RobotArm::executeAction(const char *newAction) {
     char command[15];
-    // strcopy(command, action);
+    
     strcopy(command, newAction);
     stradd(command, "\n");
 
@@ -182,8 +182,7 @@ bool RobotArm::isConnected() {
 char *RobotArm::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
-    for (i = 0; dest[i] != '\0'; i++)
-        ;
+    for (i = 0; dest[i] != '\0'; i++);
 
     for (j = 0; src[j] != '\0'; j++) {
         dest[i + j] = src[j];
@@ -200,7 +199,6 @@ char *RobotArm::strcopy(char *dest, const char *src) {
     }
 
     *dest++ = '\0';
-    //*dest = 0; No need to reset the pointer.
 
     return saved;
 }
