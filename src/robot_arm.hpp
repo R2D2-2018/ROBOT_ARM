@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief     This class contains all the functions needed to use the robot arm
- * @author    Jeroen van Hattem and Jeffrey de Waal
+ * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen
  * @license   See LICENSE
  */
 #ifndef ROBOTARM_HPP

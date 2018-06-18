@@ -1,29 +1,15 @@
 /**
  * @file
  * @brief     Robot Arm class
- * @author    Jeroen van Hattem and Jeffrey de Waal
- * @license   MIT
+ * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen
+ * @license   See LICENSE
  */
 #include "robot_arm.hpp"
 
-RobotArm::RobotArm() :  uartConn(115200, UARTController::ONE) {
-}
+RobotArm::RobotArm() :  uartConn(115200, UARTController::ONE) {}
 
 void RobotArm::sendGCodeToArm(const char *command) {
-    //if ((hwlib::now_us() / 1000) - startMsSend > 2500) {
-        //startMsSend = hwlib::now_us() / 1000;
-        //hwlib::cout << command << hwlib::endl;
-        
-        uartConn << command;
-    //}
-
-    //if    uartConn.available() > 0 && (hwlib::now_us() / 1000) - startMsReceive > 30) {
-        //startMsReceive = hwlib::now_us() / 1000;
-
-        //for (unsigned int i = 0; i <  uartConn.available(); i++) {
-            //hwlib::cout << (char  uartConn.receive();
-        //}
-    //}
+    uartConn << command;
 }
 
 void RobotArm::move(Coordinate3D coordinates, int speed) {
@@ -35,7 +21,7 @@ void RobotArm::move(Coordinate3D coordinates, int speed) {
 
 Coordinate3D RobotArm::getPosition() {
     char response[40];
-    uartConn << "#n P2220\n";
+    uartConn << "#n P2220\n"; /// See Goode commands on page 26 developer guide - http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
 
     receiveGcodeResponse(response, 40);
 
@@ -43,19 +29,27 @@ Coordinate3D RobotArm::getPosition() {
     int posXStart, posYStart, posZStart;
     int posXEnd, posYEnd, posZEnd;
 
-    /// Parse the response to get the x, y and z positions.
+    /// Example response: $n ok X100.00 Y100.00 Z100.00\n
+    /// We need to split the X, Y and Z coordinates.
+    /// We do this by checking the index positions of the 'X', 'Y', 'Z' coordinates.
+    /// After this, we check the position of the '.' character. This is the ending character of a position.
+    /// Notice that digits after the point are ignored.
+
+    /// Parse the response to get the x position.
     if ((posXStart = getCharPositionStr(response, 'X')) != -1) {
         if ((posXEnd = getCharPositionStr(response, '.', posXStart))) {
             coordinate.x = charToInt(response, posXStart + 1, posXEnd);
         }
     }
     
+    /// Parse the response to get the y position.
     if ((posYStart = getCharPositionStr(response, 'Y')) != -1) {
         if ((posYEnd = getCharPositionStr(response, '.', posYStart))) {
             coordinate.y = charToInt(response, posYStart + 1, posYEnd);
         }
     }
 
+    /// Parse the response to get the z position.
     if ((posZStart = getCharPositionStr(response, 'Z')) != -1) {
         if ((posZEnd = getCharPositionStr(response, '.', posZStart))) {
             coordinate.z = charToInt(response, posZStart + 1, posZEnd);
