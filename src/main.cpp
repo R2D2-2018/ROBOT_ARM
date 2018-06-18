@@ -30,7 +30,6 @@ int main() {
 
     while (true) {
         uarmSwiftPro.move(RobotArm::Coordinate3D(200, 200, 100), 5000);
-        // uarmSwiftPro.executeAction("M2231 V1\n");
 
         hwlib::wait_ms(500);
 
