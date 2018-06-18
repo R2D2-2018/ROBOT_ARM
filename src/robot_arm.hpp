@@ -18,40 +18,40 @@ class RobotArm {
   private:
     /**
      * @brief Robot arm actions.
-     * 
+     *
      */
     enum class Actions { reset };
 
     /**
      * @brief Current action.
-     * 
+     *
      */
     Actions action;
 
     /**
      * @brief Arm command buffer.
-     * 
+     *
      */
     char commandBuffer[25];
 
     /**
      * @brief Arm motors speed.
-     * 
+     *
      */
     unsigned int speed;
-  
+
     /**
      * @brief UART connection library instance.
-     * 
+     *
      */
     UARTConnection uartConn;
 
     /**
      * @brief Get the index of a character within a string.
-     * 
+     *
      * Optionally, the user can give a start position of the search.
      * Note that all strings must be null terminated!
-     * 
+     *
      * @param str Search string.
      * @param search Character to search.
      * @param searchStart Start index of the search.
@@ -70,10 +70,10 @@ class RobotArm {
 
     /**
      * @brief Move the arm to a new setpoint.
-     * 
+     *
      * This function will take an array existing of 3 integer values and an integer that resembles the speed. These parameters
      * will me transformed into a G-Code. This will be send to the uArm using the uart_connection class.
-     * 
+     *
      * @param coordinates New target Coordinate3D.
      * @param speed Motor speed to reach Coordinate3D.
      */
@@ -95,9 +95,9 @@ class RobotArm {
 
     /**
      * @brief Execute a desired action by sending the G-Code.
-     * 
+     *
      * With this function, G-Codes can be passed as parameter and control the uArm.
-     * 
+     *
      * @param action New action.
      */
     void executeAction(const char *action);
@@ -110,10 +110,10 @@ class RobotArm {
      * @param speed : int
      */
     void determineGCode(const Coordinate3D coordinates, int speed);
-    
+
     /**
      * @brief Determine G-Code for desired action.
-     * 
+     *
      * @param action Action.
      */
     void determineGCode(const Actions action);

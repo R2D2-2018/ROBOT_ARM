@@ -13,7 +13,7 @@ struct Coordinate3D {
   public:
     /**
      * @brief Parameters describing a three dimensional location within space.
-     * 
+     *
      */
     int x, y, z;
 

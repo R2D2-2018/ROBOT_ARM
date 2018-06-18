@@ -8,7 +8,8 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {}
+RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {
+}
 
 void RobotArm::sendGCodeToArm(const char *command) {
     uartConn << command;
@@ -64,7 +65,7 @@ Coordinate3D RobotArm::getPosition() {
 
 void RobotArm::executeAction(const char *newAction) {
     char command[15];
-    
+
     strcopy(command, newAction);
     stradd(command, "\n");
 
@@ -182,7 +183,8 @@ bool RobotArm::isConnected() {
 char *RobotArm::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
-    for (i = 0; dest[i] != '\0'; i++);
+    for (i = 0; dest[i] != '\0'; i++)
+        ;
 
     for (j = 0; src[j] != '\0'; j++) {
         dest[i + j] = src[j];
