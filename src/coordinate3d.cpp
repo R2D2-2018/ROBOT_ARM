@@ -1,17 +1,16 @@
 /**
  * @file
  * @brief     Robot Arm class
- * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen
+ * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen, Sam Zandee
  * @license   See LICENSE
  */
 #include "coordinate3d.hpp"
 
 namespace RobotArm {
 
-Coordinate3D::Coordinate3D() : x(0), y(0), z(0) {
-}
+Coordinate3D::Coordinate3D(){}
 
-Coordinate3D::Coordinate3D(const int x, const int y, const int z) : x(x), y(y), z(z) {
+Coordinate3D::Coordinate3D(const int x = 0, const int y = 0, const int z = 0) : x(x), y(y), z(z) {
 }
 
 void Coordinate3D::operator+=(const Coordinate3D &coord) {

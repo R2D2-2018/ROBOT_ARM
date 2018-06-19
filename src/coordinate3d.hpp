@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief     This class contains the Coordinate3D struct
- * @author    Jeroen van Hattem, Jeffrey de Waal and Wiebe van Breukelen
+ * @author    Jeroen van Hattem, Jeffrey de Waal and Wiebe van Breukelen, Sam Zandee
  * @license   See LICENSE
  */
 #ifndef COORDINATE3D_HPP

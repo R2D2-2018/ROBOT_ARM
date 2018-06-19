@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief     Main function
- * @author    Jeroen van Hattem and Jeffrey de Waal
+ * @author    Jeroen van Hattem and Jeffrey de Waal, Wiebe van Breukelen, Sam Zandee
  * @license   MIT
  */
 

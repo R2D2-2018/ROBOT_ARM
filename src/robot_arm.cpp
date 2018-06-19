@@ -1,7 +1,7 @@
 /**
  * @file
  * @brief     Robot Arm class
- * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen
+ * @author    Jeroen van Hattem, Jeffrey de Waal, Wiebe van Breukelen, Sam Zandee
  * @license   See LICENSE
  */
 #include "robot_arm.hpp"
@@ -24,8 +24,8 @@ void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
 
 Coordinate3D RobotArm::getPosition() {
     char response[40];
-    uartConn << "#n P2220\n"; /// See Goode commands on page 26 developer guide -
-                              /// http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
+    uartConn << "#n P2220\n"; ///< See Goode commands on page 26 developer guide -
+                              ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
 
     receiveGcodeResponse(response, 40);
 
@@ -33,27 +33,27 @@ Coordinate3D RobotArm::getPosition() {
     int posXStart, posYStart, posZStart;
     int posXEnd, posYEnd, posZEnd;
 
-    /// Example response: $n ok X100.00 Y100.00 Z100.00\n
-    /// We need to split the X, Y and Z coordinates.
-    /// We do this by checking the index positions of the 'X', 'Y', 'Z' coordinates.
-    /// After this, we check the position of the '.' character. This is the ending character of a position.
-    /// Notice that digits after the point are ignored.
+    ///< Example response: $n ok X100.00 Y100.00 Z100.00\n
+    ///< We need to split the X, Y and Z coordinates.
+    ///< We do this by checking the index positions of the 'X', 'Y', 'Z' coordinates.
+    ///< After this, we check the position of the '.' character. This is the ending character of a position.
+    ///< Notice that digits after the point are ignored.
 
-    /// Parse the response to get the x position.
+    ///< Parse the response to get the x position.
     if ((posXStart = getCharPositionStr(response, 'X')) != -1) {
         if ((posXEnd = getCharPositionStr(response, '.', posXStart))) {
             coordinate.x = charToInt(response, posXStart + 1, posXEnd);
         }
     }
 
-    /// Parse the response to get the y position.
+    ///< Parse the response to get the y position.
     if ((posYStart = getCharPositionStr(response, 'Y')) != -1) {
         if ((posYEnd = getCharPositionStr(response, '.', posYStart))) {
             coordinate.y = charToInt(response, posYStart + 1, posYEnd);
         }
     }
 
-    /// Parse the response to get the z position.
+    ///< Parse the response to get the z position.
     if ((posZStart = getCharPositionStr(response, 'Z')) != -1) {
         if ((posZEnd = getCharPositionStr(response, '.', posZStart))) {
             coordinate.z = charToInt(response, posZStart + 1, posZEnd);
@@ -107,7 +107,7 @@ void RobotArm::determineGCode(const Actions action) {
     switch (action) {
     case Actions::reset:
         hwlib::cout << "Resetting" << hwlib::endl;
-        /// TODO team 6 - We still need to write a implementation.
+        ///< TODO team 6 - We still need to write a implementation.
         break;
     default:
         hwlib::cout << "This isn't a legit action" << hwlib::endl;
@@ -124,10 +124,10 @@ int RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned
     unsigned int responseCharCounter = 0;
     char byteRead = 0;
 
-    /// Convert to microseconds
+    ///< Convert to microseconds
     readTimeout *= 1000;
 
-    /// Decrease the response size as we will include a \0 character by ourselves.
+    ///< Decrease the response size as we will include a \0 character by ourselves.
     if (responseSize > 0) {
         responseSize--;
     }
@@ -138,41 +138,41 @@ int RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned
         if (uartConn.available() > 0) {
             byteRead = uartConn.receive();
 
-            /// Read until we found an endline character.
-            /// If the responseCharCounter does equal the size of the response array, we stop to prevent writing out of memory.
+            ///< Read until we found an endline character.
+            ///< If the responseCharCounter does equal the size of the response array, we stop to prevent writing out of memory.
             if (byteRead != '\n' && responseCharCounter < responseSize) {
                 if (response) {
-                    /// Only if the response is not a null pointer, we write to the response array.
+                    ///< Only if the response is not a null pointer, we write to the response array.
                     response[responseCharCounter] = byteRead;
                 }
                 responseCharCounter += 1;
 
                 lastRead = hwlib::now_us();
-            } else if (responseCharCounter > 0) { /// We have found a endline. If the response char counter is larger then zero
-                                                  /// (there is data), we will stopping polling for new data.
+            } else if (responseCharCounter > 0) { ///< We have found a endline. If the response char counter is larger then zero
+                                                  ///< (there is data), we will stopping polling for new data.
                 receivingData = false;
             }
         }
 
-        /// Check if a timeout occurred. If so, return zero.
+        ///< Check if a timeout occurred. If so, return zero.
         if ((hwlib::now_us() - lastRead) > readTimeout) {
             return 0;
         }
     }
 
-    /// Add a \0 character to the response, if the is a response.
+    ///< Add a \0 character to the response, if the is a response.
     if (responseCharCounter > 0) {
         response[responseCharCounter++] = '\0';
     }
 
-    /// Return the amount of characters read
+    ///< Return the amount of characters read
     return responseCharCounter;
 }
 
 bool RobotArm::isConnected() {
     uartConn << "#n P2203\n";
 
-    /// By giving a null pointer as a method parameter, we save unnecessarily memory space.
+    ///< By giving a null pointer as a method parameter, we save unnecessarily memory space.
     if (!receiveGcodeResponse(nullptr, 255)) {
         return false;
     }
@@ -183,8 +183,8 @@ bool RobotArm::isConnected() {
 char *RobotArm::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
-    for (i = 0; dest[i] != '\0'; i++)
-        ;
+    for (i = 0; dest[i] != '\0'; i++){
+    }
 
     for (j = 0; src[j] != '\0'; j++) {
         dest[i + j] = src[j];
