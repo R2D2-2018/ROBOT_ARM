@@ -44,7 +44,15 @@ class RobotArm {
      * @brief UART connection library instance.
      *
      */
-    UARTConnection uartConn;
+    UARTConnection &uartConn;
+
+    /**
+     * @brief bool to set the emergency stop
+     * 
+     */
+    bool emergencyStopped; 
+
+    hwlib::pin_in &emergencyButton;
 
     /**
      * @brief Get the index of a character within a string.
@@ -66,7 +74,7 @@ class RobotArm {
      * The default constructor to create a new RobootArm object.
      *
      */
-    RobotArm();
+    RobotArm(UARTConnection &conn, hwlib::pin_in &emergencyButton);
 
     /**
      * @brief Move the arm to a new setpoint.
@@ -91,7 +99,7 @@ class RobotArm {
      *
      * @param command
      */
-    void sendGCodeToArm(const char *command);
+    inline void sendGCodeToArm(const char *command);
 
     /**
      * @brief Execute a desired action by sending the G-Code.
@@ -208,6 +216,13 @@ class RobotArm {
      * @return char*
      */
     char *stradd(char *dest, const char *src);
+
+    /**
+     * @brief Emergency stop function
+     * 
+     * This function can be called te make a emergency stop
+     */
+    void emergencyStop(); 
 };
 
 } // namespace RobotArm

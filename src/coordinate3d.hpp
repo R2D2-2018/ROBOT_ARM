@@ -65,6 +65,22 @@ struct Coordinate3D {
      * @return Coordinate3D New Coordinate3D object as the result of the substraction.
      */
     Coordinate3D operator-(const Coordinate3D &coord) const;
+
+    /**
+     * @brief Used to compare coordinates.
+     *
+     * @param coord Coordinate rhs.
+     * @return bool ==
+     */
+    bool operator==(const Coordinate3D &rhs);
+
+    /**
+     * @brief Used to compare coordinates.
+     *
+     * @param coord Coordinate rhs.
+     * @return bool !=
+     */
+    bool operator!=(const Coordinate3D &rhs);
 };
 
 } // namespace RobotArm

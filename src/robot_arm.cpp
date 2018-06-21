@@ -8,24 +8,35 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {
+RobotArm::RobotArm(UARTConnection &conn, hwlib::pin_in &emergencyButton) : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton) {
 }
 
-void RobotArm::sendGCodeToArm(const char *command) {
-    uartConn << command;
+inline void RobotArm::sendGCodeToArm(const char *command) {
+    if(emergencyStopped == false){
+        uartConn << command;}
+    // else{
+    //     hwlib::cout << "Emergencystop triggerd" << hwlib::endl;
+    // }
 }
 
 void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
     this->speed = speed;
     determineGCode(coordinates, speed);
+    sendGCodeToArm
+    (commandBuffer);
 
-    sendGCodeToArm(commandBuffer);
+    while(coordinates != getPosition()){
+        if(!emergencyButton.get()){
+            emergencyStop();
+        }
+        hwlib::wait_ms(50);
+    }
 }
 
 Coordinate3D RobotArm::getPosition() {
     char response[40];
-    uartConn << "#n P2220\n"; ///< See Goode commands on page 26 developer guide -
-                              ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
+    sendGCodeToArm("#n P2220\n");   ///< See Goode commands on page 26 developer guide -
+                                    ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
 
     receiveGcodeResponse(response, 40);
 
@@ -170,7 +181,7 @@ int RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned
 }
 
 bool RobotArm::isConnected() {
-    uartConn << "#n P2203\n";
+    sendGCodeToArm("#n P2203\n");
 
     ///< By giving a null pointer as a method parameter, we save unnecessarily memory space.
     if (!receiveGcodeResponse(nullptr, 255)) {
@@ -247,5 +258,11 @@ int RobotArm::getCharPositionStr(const char *str, const char search, const int s
 
     return -1;
 }
+
+void RobotArm::emergencyStop(){
+    sendGCodeToArm("#n G2203\n");
+    emergencyStopped = true;
+    //hwlib::cout << "Stopped!!!!!!!" << hwlib::endl;
+} 
 
 } // namespace RobotArm

@@ -41,4 +41,14 @@ Coordinate3D Coordinate3D::operator-(const Coordinate3D &coord) const {
     return newCoord;
 }
 
+bool Coordinate3D::operator==(const Coordinate3D &rhs){
+  return (x == rhs.x)
+      && (y == rhs.y)
+      && (z == rhs.z);
+}
+
+bool Coordinate3D::operator!=(const Coordinate3D &rhs) {
+    return !(*this == rhs);
+}
+
 } // namespace RobotArm
