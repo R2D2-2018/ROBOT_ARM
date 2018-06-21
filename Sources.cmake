@@ -1,14 +1,3 @@
-# Toolchain:
-
-set (build_environment "$ENV{R2D2_BUILD_ENVIRONMENT}") # Your path to kvasir_toolchain
-
-if (build_environment)
-set (toolchain ${build_environment}/toolchain)
-else (build_environment)
-set (build_environment ../..)
-set (toolchain ../../toolchain)
-endif (build_environment)
-
 # Libraries:
 
 link_libraries (gcc)
@@ -28,4 +17,4 @@ set (sources
     src/robot_arm.cpp
 	src/uart_connection.cpp
     src/wrap-hwlib.cpp
-)    
+)
