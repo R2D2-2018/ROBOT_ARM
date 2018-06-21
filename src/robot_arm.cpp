@@ -8,25 +8,23 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton) : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton) {
+RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton)
+    : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton) {
 }
 
 inline void RobotArm::sendGCodeToArm(const char *command) {
-    if(emergencyStopped == false){
-        uartConn << command;}
-    // else{
-    //     hwlib::cout << "Emergencystop triggerd" << hwlib::endl;
-    // }
+    if (emergencyStopped == false) {
+        uartConn << command;
+    }
 }
 
 void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
     this->speed = speed;
     determineGCode(coordinates, speed);
-    sendGCodeToArm
-    (commandBuffer);
+    sendGCodeToArm(commandBuffer);
 
-    while(coordinates != getPosition()){
-        if(!emergencyButton.get()){
+    while (coordinates != getPosition()) {
+        if (!emergencyButton.get()) {
             emergencyStop();
         }
         hwlib::wait_ms(50);
@@ -35,8 +33,8 @@ void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
 
 Coordinate3D RobotArm::getPosition() {
     char response[40];
-    sendGCodeToArm("#n P2220\n");   ///< See Goode commands on page 26 developer guide -
-                                    ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
+    sendGCodeToArm("#n P2220\n"); ///< See Goode commands on page 26 developer guide -
+                                  ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
 
     receiveGcodeResponse(response, 40);
 
@@ -194,7 +192,7 @@ bool RobotArm::isConnected() {
 char *RobotArm::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
-    for (i = 0; dest[i] != '\0'; i++){
+    for (i = 0; dest[i] != '\0'; i++) {
     }
 
     for (j = 0; src[j] != '\0'; j++) {
@@ -259,10 +257,9 @@ int RobotArm::getCharPositionStr(const char *str, const char search, const int s
     return -1;
 }
 
-void RobotArm::emergencyStop(){
+void RobotArm::emergencyStop() {
     sendGCodeToArm("#n G2203\n");
     emergencyStopped = true;
-    //hwlib::cout << "Stopped!!!!!!!" << hwlib::endl;
-} 
+}
 
 } // namespace RobotArm

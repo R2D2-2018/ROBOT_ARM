@@ -48,9 +48,9 @@ class RobotArm {
 
     /**
      * @brief bool to set the emergency stop
-     * 
+     *
      */
-    bool emergencyStopped; 
+    bool emergencyStopped;
 
     hwlib::pin_in &emergencyButton;
 
@@ -219,10 +219,10 @@ class RobotArm {
 
     /**
      * @brief Emergency stop function
-     * 
+     *
      * This function can be called te make a emergency stop
      */
-    void emergencyStop(); 
+    void emergencyStop();
 };
 
 } // namespace RobotArm

@@ -20,14 +20,14 @@ int main() {
 
     UARTLib::HardwareUART conn(115200, UARTLib::UARTController::ONE);
     RobotArm::RobotArm uarmSwiftPro(conn, emergencyButton);
-    
+
     ///< Check if the arm is connected.
     if (!uarmSwiftPro.isConnected()) {
         hwlib::cout << "Please connect the uArm Swift Pro" << hwlib::endl;
 
         ///< Wait until the arm is connected using a UART connection.
-       while (!uarmSwiftPro.isConnected())
-          hwlib::wait_ms(200);
+        while (!uarmSwiftPro.isConnected())
+            hwlib::wait_ms(200);
     }
 
     hwlib::cout << "uArm Swift Pro is connected!" << hwlib::endl;
@@ -43,8 +43,7 @@ int main() {
         hwlib::wait_ms(500);
 
         ///< Receive the position.
-        RobotArm::Coordinate3D 
-        coordinate = uarmSwiftPro.getPosition();
+        RobotArm::Coordinate3D coordinate = uarmSwiftPro.getPosition();
 
         ///< Display the position.
         hwlib::cout << coordinate.x << ", " << coordinate.y << ", " << coordinate.z << hwlib::endl;
