@@ -10,6 +10,7 @@
 #include "coordinate3d.hpp"
 #include "uart_lib.hpp"
 #include "wrap-hwlib.hpp"
+#include "queue.hpp"
 #include <cstring>
 
 namespace RobotArm {
@@ -35,6 +36,12 @@ class RobotArm {
     char commandBuffer[25];
 
     /**
+     * @brief Queue containing arm move actions.
+     * 
+     */
+    Queue<Coordinate3D, 50> moveQueue;
+
+    /**
      * @brief Arm motors speed.
      *
      */
@@ -52,6 +59,16 @@ class RobotArm {
      */
     bool emergencyStopped;
 
+    /**
+     * @brief Arm target position.
+     * 
+     */
+    Coordinate3D toGoPos;
+
+    /**
+     * @brief Button pin used for emergency stop.
+     * 
+     */
     hwlib::pin_in &emergencyButton;
 
     /**
@@ -86,6 +103,17 @@ class RobotArm {
      * @param speed Motor speed to reach Coordinate3D.
      */
     void move(const Coordinate3D coordinates, unsigned int speed);
+
+    /**
+     * @brief Loop action. 
+     * 
+     * This method will check if we are currently performing a arm movement, and if so, increase/decrease 
+     * the arm position to get closer to the target position.
+     * If we are not doing a arm movement, we check if there is one available in the queue.
+     * 
+     */
+    void loop();
+
     /**
      * @brief Execute a desired action.
      *

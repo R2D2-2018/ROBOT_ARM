@@ -9,7 +9,7 @@
 namespace RobotArm {
 
 RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton)
-    : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton) {
+    : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), toGoPos(0, 0, 0) {
 }
 
 inline void RobotArm::sendGCodeToArm(const char *command) {
@@ -18,17 +18,68 @@ inline void RobotArm::sendGCodeToArm(const char *command) {
     }
 }
 
+void RobotArm::loop() {
+    ///< If we are in a emergency, we stop any arm activity.
+    if (emergencyStopped) {
+        return;
+    }
+
+    ///< If the emergency button is pressed, we stop the arm movement.
+    if (!emergencyButton.get()) {
+        emergencyStop();
+    }
+
+    ///< If we are still not at our target position, move...
+    if (toGoPos != Coordinate3D(0, 0, 0)) {
+        Coordinate3D curPos = getPosition();
+
+        if (toGoPos.x > 0) {
+            curPos.x++;
+            toGoPos.x--;
+        } else if (toGoPos.x < 0) {
+            curPos.x--;
+            toGoPos.x++;
+        }
+
+        if (toGoPos.y > 0) {
+            curPos.y++;
+            toGoPos.y--;
+        } else if(toGoPos.y < 0) {
+            curPos.y--;
+            toGoPos.y++;
+        }
+
+        if (toGoPos.z > 0) {
+            curPos.z++;
+            toGoPos.z--;
+        } else if (toGoPos.z < 0) {
+            curPos.z--;
+            toGoPos.z++;
+        }
+
+
+        determineGCode(curPos, speed);
+        sendGCodeToArm(commandBuffer);
+        ///< Little wait to prevent serial flooding.
+        hwlib::wait_ms(3);
+
+        while (getPosition() != curPos) {
+            ///< Little wait to prevent serial flooding.
+            hwlib::wait_ms(3);
+        }
+    } else {
+        if (moveQueue.count() > 0) {
+            ///< New item available in the move queue, set it at our target position.
+            toGoPos = moveQueue.pop() - getPosition();
+        }
+    }
+}
+
 void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
     this->speed = speed;
-    determineGCode(coordinates, speed);
-    sendGCodeToArm(commandBuffer);
 
-    while (coordinates != getPosition()) {
-        if (!emergencyButton.get()) {
-            emergencyStop();
-        }
-        hwlib::wait_ms(50);
-    }
+    ///< Push a new move action to the move queue.
+    moveQueue.push(coordinates);
 }
 
 Coordinate3D RobotArm::getPosition() {
