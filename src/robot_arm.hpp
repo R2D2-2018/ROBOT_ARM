@@ -8,7 +8,7 @@
 #define ROBOTARM_HPP
 
 #include "coordinate3d.hpp"
-#include "uart_connection.hpp"
+#include "uart_lib.hpp"
 #include "wrap-hwlib.hpp"
 #include <cstring>
 
@@ -44,7 +44,7 @@ class RobotArm {
      * @brief UART connection library instance.
      *
      */
-    UARTConnection &uartConn;
+    UARTLib::UARTConnection &uartConn;
 
     /**
      * @brief bool to set the emergency stop
@@ -74,7 +74,7 @@ class RobotArm {
      * The default constructor to create a new RobootArm object.
      *
      */
-    RobotArm(UARTConnection &conn, hwlib::pin_in &emergencyButton);
+    RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton);
 
     /**
      * @brief Move the arm to a new setpoint.

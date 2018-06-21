@@ -8,7 +8,7 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm(UARTConnection &conn, hwlib::pin_in &emergencyButton) : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton) {
+RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton) : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton) {
 }
 
 inline void RobotArm::sendGCodeToArm(const char *command) {

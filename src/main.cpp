@@ -7,7 +7,7 @@
 
 #include "coordinate3d.hpp"
 #include "robot_arm.hpp"
-#include "uart_connection.hpp"
+#include "uart_lib.hpp"
 #include "wrap-hwlib.hpp"
 
 namespace target = hwlib::target;
@@ -18,49 +18,35 @@ int main() {
 
     target::pin_in emergencyButton = target::pin_in(target::pins::d50);
 
-    UARTConnection conn(115200, UARTController::ONE);
+    UARTLib::HardwareUART conn(115200, UARTLib::UARTController::ONE);
     RobotArm::RobotArm uarmSwiftPro(conn, emergencyButton);
     
-
-    /// Check if the arm is connected.
+    ///< Check if the arm is connected.
     if (!uarmSwiftPro.isConnected()) {
         hwlib::cout << "Please connect the uArm Swift Pro" << hwlib::endl;
 
-        /// Wait until the arm is connected using a UART connection.
+        ///< Wait until the arm is connected using a UART connection.
        while (!uarmSwiftPro.isConnected())
           hwlib::wait_ms(200);
     }
 
     hwlib::cout << "uArm Swift Pro is connected!" << hwlib::endl;
 
-    /// Little delay to let the uArm Swift Pro boot properly.
+    ///< Little delay to let the uArm Swift Pro boot properly.
     hwlib::wait_ms(2000);
 
-    /// Move the arm to a 3D coordinate.
+    ///< Move the arm to a 3D coordinate.
     uarmSwiftPro.move(RobotArm::Coordinate3D(100, 100, 100), 5000);
-
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 150, 100), 5000);
-
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 100, 100), 5000);
-
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 150, 100), 5000);
-
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 100, 100), 5000);
-
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 150, 100), 5000);
-
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 100, 100), 5000);
-
     uarmSwiftPro.move(RobotArm::Coordinate3D(100, 150, 100), 5000);
 
     while (true) {
         hwlib::wait_ms(500);
 
-        /// Receive the position.
-       RobotArm::Coordinate3D 
-       coordinate = uarmSwiftPro.getPosition();
+        ///< Receive the position.
+        RobotArm::Coordinate3D 
+        coordinate = uarmSwiftPro.getPosition();
 
-        /// Display the position.
+        ///< Display the position.
         hwlib::cout << coordinate.x << ", " << coordinate.y << ", " << coordinate.z << hwlib::endl;
     }
 
