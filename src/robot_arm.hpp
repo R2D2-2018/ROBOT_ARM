@@ -209,6 +209,14 @@ class RobotArm {
     bool isConnected();
 
     /**
+     * @brief Check if the uArm Swift Pro is emergency stopped.
+     * 
+     * @return true Emergency stopped.
+     * @return false Not emergency stopped.
+     */
+    bool isEmergencyStopped();
+
+    /**
      * @brief Emergency stop function
      *
      * This function can be called te make a emergency stop

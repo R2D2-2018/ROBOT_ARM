@@ -243,6 +243,10 @@ bool RobotArm::isConnected() {
     return true;
 }
 
+bool RobotArm::isEmergencyStopped() {
+    return emergencyStopped;
+}
+
 int RobotArm::getCharPositionStr(const char *str, const char search, const int searchStart) const {
     unsigned int strIndex = searchStart;
 
