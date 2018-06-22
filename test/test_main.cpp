@@ -18,8 +18,9 @@
 #include "test_type_manipulation.hpp"
 
 UARTLib::MockUART comm(115200);
-hwlib::test::pin_in<8> testPinIn{1, 0, 1, 0, 1, 0, 1, 1};
-RobotArm::RobotArm uarmSwiftPro(comm, testPinIn);
+hwlib::test::pin_in<8> testPinEmergency{1, 0, 1, 0, 1, 0, 1, 1};
+hwlib::test::pin_in<8> testPinCancelEmergency{1, 0, 1, 0, 1, 0, 1, 1};
+RobotArm::RobotArm uarmSwiftPro(comm, testPinEmergency, testPinCancelEmergency);
 
 
 TEST_CASE("RobotArm emergency trigger") {
