@@ -60,16 +60,17 @@ class RobotArm {
     bool emergencyStopped;
 
     /**
+     * @brief Button pin used for emergency stop.
+     * 
+     */
+    hwlib::pin_in &emergencyButton;
+
+    /**
      * @brief Arm target position.
      * 
      */
     Coordinate3D toGoPos;
 
-    /**
-     * @brief Button pin used for emergency stop.
-     * 
-     */
-    hwlib::pin_in &emergencyButton;
 
     /**
      * @brief Get the index of a character within a string.
