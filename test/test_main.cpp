@@ -10,41 +10,22 @@
 #include "mock_uart.hpp"
 
 #include "catch.hpp"
+///< Tests for Coordinate3D ADT.
 #include "test_coordinate3d.hpp"
+///< Tests for movement queue.
 #include "test_move_queue.hpp"
+///< Tests for type manipulation.
+#include "test_type_manipulation.hpp"
 
 UARTLib::MockUART comm(115200);
 hwlib::test::pin_in<8> testPinIn{1, 0, 1, 0, 1, 0, 1, 1};
 RobotArm::RobotArm uarmSwiftPro(comm, testPinIn);
 
 
-TEST_CASE("Append char* with another char*") {
-    char text[100] = "Hello, ";
-    uarmSwiftPro.stradd(text, "how are you?");
+TEST_CASE("RobotArm emergency trigger") {
+    REQUIRE(!uarmSwiftPro.isEmergencyStopped());
 
-    REQUIRE_THAT(text, Catch::Matchers::Equals("Hello, how are you?"));
-}
+    uarmSwiftPro.emergencyStop();
 
-TEST_CASE("Copy char* to another char *") {
-    char text[100] = "Hello World!";
-    uarmSwiftPro.strcopy(text, "Hi");
-
-    REQUIRE_THAT(text, Catch::Matchers::Equals("Hi"));
-}
-
-TEST_CASE("Convert integer to char *") {
-    int x = 100;
-    char buffer[4];
-
-    uarmSwiftPro.intToChar(x, buffer);
-
-    REQUIRE_THAT(buffer, Catch::Matchers::Equals("100"));
-}
-
-TEST_CASE("Convert char * to integer") {
-    char buffer[4] = "100";
-
-    int val = uarmSwiftPro.charToInt(buffer, 0, 3);
-
-    REQUIRE(val == 100);
+    REQUIRE(uarmSwiftPro.isEmergencyStopped());
 }
