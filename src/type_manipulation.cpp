@@ -51,4 +51,4 @@ int TypeManipulation::charToInt(const char *str, const unsigned int posStart, co
 
     return result;
 }
-}
+} // namespace RobotArm

@@ -8,10 +8,10 @@
 #define ROBOTARM_HPP
 
 #include "coordinate3d.hpp"
-#include "uart_lib.hpp"
-#include "wrap-hwlib.hpp"
 #include "queue.hpp"
 #include "type_manipulation.hpp"
+#include "uart_lib.hpp"
+#include "wrap-hwlib.hpp"
 #include <cstring>
 
 namespace RobotArm {
@@ -38,7 +38,7 @@ class RobotArm {
 
     /**
      * @brief Queue containing arm move actions.
-     * 
+     *
      */
     Queue<Coordinate3D, 50> moveQueue;
 
@@ -62,30 +62,29 @@ class RobotArm {
 
     /**
      * @brief Button pin used for emergency stop.
-     * 
+     *
      */
     hwlib::pin_in &emergencyButton;
 
     /**
      * @brief Button pin used to cancel the emergency stop.
-     * 
+     *
      */
     hwlib::pin_in &cancelEmergencyButton;
 
     /**
      * @brief Arm target position.
-     * 
+     *
      */
     Coordinate3D toGoPos;
 
     /**
      * @brief Used for type manipulation, parsing Gcode strings, etc.
-     * 
+     *
      * This class created is purely here because the STD variant doesn't work (libc is missing).
-     * 
+     *
      */
     TypeManipulation typeManip;
-
 
     /**
      * @brief Get the index of a character within a string/Gcode command.
@@ -108,7 +107,7 @@ class RobotArm {
      *
      */
     RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton);
-  
+
     /**
      * @brief Move the arm to a new setpoint.
      *
@@ -121,12 +120,12 @@ class RobotArm {
     void move(const Coordinate3D coordinates, unsigned int speed);
 
     /**
-     * @brief Loop action. 
-     * 
-     * This method will check if we are currently performing a arm movement, and if so, increase/decrease 
+     * @brief Loop action.
+     *
+     * This method will check if we are currently performing a arm movement, and if so, increase/decrease
      * the arm position to get closer to the target position.
      * If we are not doing a arm movement, we check if there is one available in the queue.
-     * 
+     *
      */
     void loop();
 
@@ -222,11 +221,11 @@ class RobotArm {
 
     /**
      * @brief No Emergency function.
-     * 
+     *
      * This function can be called to cancel the emergency.
      */
-    void cancelEmergency(); 
-  };
+    void cancelEmergency();
+};
 } // namespace RobotArm
 
 #endif // ROBOTARM_HPP

@@ -6,7 +6,7 @@
 namespace RobotArm {
 
 class TypeManipulation {
-public:
+  public:
     /**
      * @brief strcopy function
      *
@@ -56,6 +56,6 @@ public:
     int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
 };
 
-}
+} // namespace RobotArm
 
 #endif
