@@ -15,8 +15,8 @@ void RobotArm::sendGCodeToArm(const char *command) {
     uartConn << command;
 }
 
-void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
-    this->speed = speed;
+void RobotArm::move(Coordinate3D coordinates, unsigned int newSpeed) {
+    speed = newSpeed;
     determineGCode(coordinates, speed);
 
     sendGCodeToArm(commandBuffer);

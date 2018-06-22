@@ -53,7 +53,7 @@ struct Coordinate3D {
     /**
      * @brief The addition operator of two Coordinate3D objects.
      *
-     * @param coord Constatn coordinate to add.
+     * @param coord Constant coordinate to add.
      * @return Coordinate3D New Coordinate3D object as the result of the addition.
      */
     Coordinate3D operator+(const Coordinate3D &coord) const;
