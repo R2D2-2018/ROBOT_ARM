@@ -93,7 +93,7 @@ TEST_CASE("Compare two Coordinate3D objects") {
     RobotArm::Coordinate3D coord(10, 20, 30);
     RobotArm::Coordinate3D coord2(10, 20, 30);
 
-    // The test for a != operator
+    ///< The test for a != operator
     REQUIRE_FALSE((coord != coord2));
 }
 
