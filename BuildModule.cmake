@@ -1,4 +1,4 @@
-include (../../flags.cmake)
+include (${build_environment}/flags.cmake)
 
 set (cxxflags
     "-Os"
@@ -7,6 +7,10 @@ set (cxxflags
     "-fno-exceptions"
     "-fno-rtti"
     "-fno-threadsafe-statics")
+
+add_definitions (-DBMPTK_TARGET_arduino_due
+                 -DBMPTK_TARGET=arduino_due
+                 -DBMPTK_BAUDRATE=19200)
 
 string (REGEX REPLACE ";" " " cxxflags "${cxxflags}")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cxxflags}")
