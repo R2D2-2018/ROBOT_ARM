@@ -8,12 +8,8 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton)
-    : uartConn(conn),
-    emergencyStopped(false),
-    emergencyButton(emergencyButton),
-    toGoPos(0, 0, 0)
-{}
+RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton) 
+: uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), cancelEmergencyButton(cancelEmergencyButton), toGoPos(0, 0, 0){}
 
 inline void RobotArm::sendGCodeToArm(const char *command) {
     if (emergencyStopped == false) {
@@ -24,12 +20,17 @@ inline void RobotArm::sendGCodeToArm(const char *command) {
 void RobotArm::loop() {
     ///< If we are in a emergency, we stop any arm activity.
     if (emergencyStopped) {
+        ///< If the noEmergency button is pressed we continue the arm movement.
+        if (!cancelEmergencyButton.get()){
+            cancelEmergency();
+        }
         return;
     }
 
     ///< If the emergency button is pressed, we stop the arm movement.
     if (!emergencyButton.get()) {
         emergencyStop();
+        return;
     }
 
     ///< If we are still not at our target position, move...
@@ -267,6 +268,10 @@ int RobotArm::getCharPositionStr(const char *str, const char search, const int s
 void RobotArm::emergencyStop() {
     sendGCodeToArm("#n G2203\n");
     emergencyStopped = true;
+}
+
+void RobotArm::cancelEmergency(){
+    emergencyStopped = false;
 }
 
 } // namespace RobotArm
