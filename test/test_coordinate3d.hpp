@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief     Tests Coordinate3D ADT
+ * @brief     Tests for the Coordinate3D ADT
  * @author    Wiebe van Breukelen
  * @license   MIT
  */
