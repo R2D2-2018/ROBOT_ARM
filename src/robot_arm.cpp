@@ -8,24 +8,90 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm() : uartConn(115200, UARTController::ONE) {
+RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton)
+    : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), cancelEmergencyButton(cancelEmergencyButton),
+      toGoPos(0, 0, 0) {
 }
 
-void RobotArm::sendGCodeToArm(const char *command) {
-    uartConn << command;
+inline void RobotArm::sendGCodeToArm(const char *command) {
+    if (emergencyStopped == false) {
+        uartConn << command;
+    }
+}
+
+void RobotArm::loop() {
+    ///< If we are in a emergency, we stop any arm activity.
+    if (emergencyStopped) {
+        ///< If the noEmergency button is pressed we continue the arm movement.
+        if (!cancelEmergencyButton.get()) {
+            cancelEmergency();
+        }
+        return;
+    }
+
+    ///< If the emergency button is pressed, we stop the arm movement.
+    if (!emergencyButton.get()) {
+        emergencyStop();
+        return;
+    }
+
+    ///< If we are still not at our target position, move...
+    if (toGoPos != Coordinate3D(0, 0, 0)) {
+        Coordinate3D curPos = getPosition();
+
+        if (toGoPos.x > 0) {
+            curPos.x++;
+            toGoPos.x--;
+        } else if (toGoPos.x < 0) {
+            curPos.x--;
+            toGoPos.x++;
+        }
+
+        if (toGoPos.y > 0) {
+            curPos.y++;
+            toGoPos.y--;
+        } else if (toGoPos.y < 0) {
+            curPos.y--;
+            toGoPos.y++;
+        }
+
+        if (toGoPos.z > 0) {
+            curPos.z++;
+            toGoPos.z--;
+        } else if (toGoPos.z < 0) {
+            curPos.z--;
+            toGoPos.z++;
+        }
+
+        determineGCode(curPos, speed);
+        sendGCodeToArm(commandBuffer);
+        ///< Little wait to prevent serial flooding.
+        hwlib::wait_ms(3);
+
+        while (getPosition() != curPos) {
+            ///< Little wait to prevent serial flooding.
+            hwlib::wait_ms(3);
+        }
+    } else {
+        if (moveQueue.count() > 0) {
+            ///< New item available in the move queue, set it at our target position.
+            toGoPos = moveQueue.pop() - getPosition();
+        }
+    }
 }
 
 void RobotArm::move(Coordinate3D coordinates, unsigned int newSpeed) {
     speed = newSpeed;
     determineGCode(coordinates, speed);
 
-    sendGCodeToArm(commandBuffer);
+    ///< Push a new move action to the move queue.
+    moveQueue.push(coordinates);
 }
 
 Coordinate3D RobotArm::getPosition() {
     char response[40];
-    uartConn << "#n P2220\n"; ///< See Goode commands on page 26 developer guide -
-                              ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
+    sendGCodeToArm("#n P2220\n"); ///< See Goode commands on page 26 developer guide -
+                                  ///< http://download.ufactory.cc/docs/en/uArm-Swift-Pro-Develper-Guide-171013.pdf
 
     receiveGcodeResponse(response, 40);
 
@@ -42,21 +108,21 @@ Coordinate3D RobotArm::getPosition() {
     ///< Parse the response to get the x position.
     if ((posXStart = getCharPositionStr(response, 'X')) != -1) {
         if ((posXEnd = getCharPositionStr(response, '.', posXStart))) {
-            coordinate.x = charToInt(response, posXStart + 1, posXEnd);
+            coordinate.x = typeManip.charToInt(response, posXStart + 1, posXEnd);
         }
     }
 
     ///< Parse the response to get the y position.
     if ((posYStart = getCharPositionStr(response, 'Y')) != -1) {
         if ((posYEnd = getCharPositionStr(response, '.', posYStart))) {
-            coordinate.y = charToInt(response, posYStart + 1, posYEnd);
+            coordinate.y = typeManip.charToInt(response, posYStart + 1, posYEnd);
         }
     }
 
     ///< Parse the response to get the z position.
     if ((posZStart = getCharPositionStr(response, 'Z')) != -1) {
         if ((posZEnd = getCharPositionStr(response, '.', posZStart))) {
-            coordinate.z = charToInt(response, posZStart + 1, posZEnd);
+            coordinate.z = typeManip.charToInt(response, posZStart + 1, posZEnd);
         }
     }
 
@@ -66,8 +132,8 @@ Coordinate3D RobotArm::getPosition() {
 void RobotArm::executeAction(const char *newAction) {
     char command[15];
 
-    strcopy(command, newAction);
-    stradd(command, "\n");
+    typeManip.strcopy(command, newAction);
+    typeManip.stradd(command, "\n");
 
     sendGCodeToArm(command);
 }
@@ -82,25 +148,25 @@ void RobotArm::determineGCode(const Coordinate3D coordinates, int speed) {
     char coordinatesAsTextZ[10];
     char speedAsText[10];
 
-    intToChar(coordinates.x, coordinatesAsTextX);
-    intToChar(coordinates.y, coordinatesAsTextY);
-    intToChar(coordinates.z, coordinatesAsTextZ);
-    intToChar(speed, speedAsText);
+    typeManip.intToChar(coordinates.x, coordinatesAsTextX);
+    typeManip.intToChar(coordinates.y, coordinatesAsTextY);
+    typeManip.intToChar(coordinates.z, coordinatesAsTextZ);
+    typeManip.intToChar(speed, speedAsText);
 
-    strcopy(commandBuffer, "G0 X");
+    typeManip.strcopy(commandBuffer, "G0 X");
 
-    stradd(commandBuffer, coordinatesAsTextX);
+    typeManip.stradd(commandBuffer, coordinatesAsTextX);
 
-    stradd(commandBuffer, " Y");
-    stradd(commandBuffer, coordinatesAsTextY);
+    typeManip.stradd(commandBuffer, " Y");
+    typeManip.stradd(commandBuffer, coordinatesAsTextY);
 
-    stradd(commandBuffer, " Z");
-    stradd(commandBuffer, coordinatesAsTextZ);
+    typeManip.stradd(commandBuffer, " Z");
+    typeManip.stradd(commandBuffer, coordinatesAsTextZ);
 
-    stradd(commandBuffer, " F");
-    stradd(commandBuffer, speedAsText);
+    typeManip.stradd(commandBuffer, " F");
+    typeManip.stradd(commandBuffer, speedAsText);
 
-    stradd(commandBuffer, "\n");
+    typeManip.stradd(commandBuffer, "\n");
 }
 
 void RobotArm::determineGCode(const Actions action) {
@@ -170,7 +236,7 @@ int RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned
 }
 
 bool RobotArm::isConnected() {
-    uartConn << "#n P2203\n";
+    sendGCodeToArm("#n P2203\n");
 
     ///< By giving a null pointer as a method parameter, we save unnecessarily memory space.
     if (!receiveGcodeResponse(nullptr, 255)) {
@@ -180,55 +246,8 @@ bool RobotArm::isConnected() {
     return true;
 }
 
-char *RobotArm::stradd(char *dest, const char *src) {
-    size_t i = 0, j = 0;
-
-    for (i = 0; dest[i] != '\0'; i++){
-    }
-
-    for (j = 0; src[j] != '\0'; j++) {
-        dest[i + j] = src[j];
-    }
-
-    dest[i + j] = '\0';
-    return dest;
-}
-
-char *RobotArm::strcopy(char *dest, const char *src) {
-    char *saved = dest;
-    while (*src) {
-        *dest++ = *src++;
-    }
-
-    *dest++ = '\0';
-
-    return saved;
-}
-
-char *RobotArm::intToChar(int number, char *dest) {
-    if ((number / 10) == 0) {
-        *dest++ = number + '0';
-        *dest = '\0';
-        return dest;
-    }
-
-    dest = intToChar(number / 10, dest);
-    *dest++ = (number % 10) + '0';
-    *dest = '\0';
-    return dest;
-}
-
-int RobotArm::charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const {
-    int result = 0;
-
-    for (unsigned int i = posStart; i < posEnd; i++) {
-        char digit = static_cast<char>(str[i] - '0');
-
-        result *= 10;
-        result += digit;
-    }
-
-    return result;
+bool RobotArm::isEmergencyStopped() {
+    return emergencyStopped;
 }
 
 int RobotArm::getCharPositionStr(const char *str, const char search, const int searchStart) const {
@@ -246,6 +265,15 @@ int RobotArm::getCharPositionStr(const char *str, const char search, const int s
     }
 
     return -1;
+}
+
+void RobotArm::emergencyStop() {
+    sendGCodeToArm("#n G2203\n");
+    emergencyStopped = true;
+}
+
+void RobotArm::cancelEmergency() {
+    emergencyStopped = false;
 }
 
 } // namespace RobotArm

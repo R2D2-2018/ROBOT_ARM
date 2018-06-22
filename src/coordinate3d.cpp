@@ -8,7 +8,8 @@
 
 namespace RobotArm {
 
-Coordinate3D::Coordinate3D(){}
+Coordinate3D::Coordinate3D() {
+}
 
 Coordinate3D::Coordinate3D(const int x = 0, const int y = 0, const int z = 0) : x(x), y(y), z(z) {
 }
@@ -39,6 +40,14 @@ Coordinate3D Coordinate3D::operator-(const Coordinate3D &coord) const {
     newCoord -= coord;
 
     return newCoord;
+}
+
+bool Coordinate3D::operator==(const Coordinate3D &rhs) {
+    return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
+}
+
+bool Coordinate3D::operator!=(const Coordinate3D &rhs) {
+    return !(*this == rhs);
 }
 
 } // namespace RobotArm
