@@ -17,9 +17,10 @@ int main() {
     hwlib::wait_ms(1000);
 
     target::pin_in emergencyButton = target::pin_in(target::pins::d50);
+    target::pin_in cancelEmergencyButton = target::pin_in(target::pins::d12);
 
     UARTLib::HardwareUART conn(115200, UARTLib::UARTController::ONE);
-    RobotArm::RobotArm uarmSwiftPro(conn, emergencyButton);
+    RobotArm::RobotArm uarmSwiftPro(conn, emergencyButton, cancelEmergencyButton);
 
     ///< Check if the arm is connected.
     if (!uarmSwiftPro.isConnected()) {

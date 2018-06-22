@@ -60,16 +60,22 @@ class RobotArm {
     bool emergencyStopped;
 
     /**
-     * @brief Arm target position.
-     * 
-     */
-    Coordinate3D toGoPos;
-
-    /**
      * @brief Button pin used for emergency stop.
      * 
      */
     hwlib::pin_in &emergencyButton;
+
+      /**
+     * @brief Button pin used to cancel the emergency stop.
+     * 
+     */
+    hwlib::pin_in &cancelEmergencyButton;
+
+    /**
+     * @brief Arm target position.
+     * 
+     */
+    Coordinate3D toGoPos;
 
     /**
      * @brief Get the index of a character within a string.
@@ -91,8 +97,8 @@ class RobotArm {
      * The default constructor to create a new RobootArm object.
      *
      */
-    RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton);
-
+    RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton);
+  
     /**
      * @brief Move the arm to a new setpoint.
      *
@@ -248,11 +254,17 @@ class RobotArm {
     /**
      * @brief Emergency stop function
      *
-     * This function can be called te make a emergency stop
+     * This function can be called to make a emergency stop
      */
     void emergencyStop();
-};
 
+    /**
+     * @brief No Emergency function.
+     * 
+     * This function can be called to cancel the emergency.
+     */
+    void cancelEmergency(); 
+  };
 } // namespace RobotArm
 
 #endif // ROBOTARM_HPP
