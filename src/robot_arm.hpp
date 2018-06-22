@@ -118,7 +118,7 @@ class RobotArm {
      * @param coordinates New target Coordinate3D.
      * @param speed Motor speed to reach Coordinate3D.
      */
-    void move(const Coordinate3D coordinates, unsigned int speed);
+    void move(const Coordinate3D coordinates, unsigned int newSpeed);
 
     /**
      * @brief Loop action. 
@@ -131,9 +131,11 @@ class RobotArm {
     void loop();
 
     /**
-     * @brief Execute a desired action.
+     * @brief Execute a action upon the arm.
+     * 
+     * Actions are available with in the Actions enum.
      *
-     * @param action : Actions
+     * @param action Action to perform.
      */
     void executeAction(const Actions action);
     /**
@@ -141,7 +143,7 @@ class RobotArm {
      *
      * This is the function that sends the G-Code to the uArm.
      *
-     * @param command
+     * @param command G-Code command in the form of a string.
      */
     inline void sendGCodeToArm(const char *command);
 
@@ -174,7 +176,7 @@ class RobotArm {
      *
      * This function returns the speed with which the arm is moving.
      *
-     * @return speed
+     * @return speed Speed of the arm.
      */
     int getSpeed();
 
@@ -208,8 +210,7 @@ class RobotArm {
      * By trying to receive the firmware version, we determine if the uArm Swift Pro is connected.
      * If the arm is not connected, a serial receive timeout will occur.
      *
-     * @return true Device connected.
-     * @return false Device is not connected.
+     * @return bool Device connected or not.
      */
     bool isConnected();
 

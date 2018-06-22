@@ -79,8 +79,9 @@ void RobotArm::loop() {
     }
 }
 
-void RobotArm::move(Coordinate3D coordinates, unsigned int speed) {
-    this->speed = speed;
+void RobotArm::move(Coordinate3D coordinates, unsigned int newSpeed) {
+    speed = newSpeed;
+    determineGCode(coordinates, speed);
 
     ///< Push a new move action to the move queue.
     moveQueue.push(coordinates);
