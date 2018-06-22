@@ -8,9 +8,8 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton)
-    : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), cancelEmergencyButton(cancelEmergencyButton), toGoPos(0, 0, 0) {
-}
+RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton) 
+: uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), cancelEmergencyButton(cancelEmergencyButton), toGoPos(0, 0, 0){}
 
 inline void RobotArm::sendGCodeToArm(const char *command) {
     if (emergencyStopped == false) {
@@ -107,21 +106,21 @@ Coordinate3D RobotArm::getPosition() {
     ///< Parse the response to get the x position.
     if ((posXStart = getCharPositionStr(response, 'X')) != -1) {
         if ((posXEnd = getCharPositionStr(response, '.', posXStart))) {
-            coordinate.x = charToInt(response, posXStart + 1, posXEnd);
+            coordinate.x = typeManip.charToInt(response, posXStart + 1, posXEnd);
         }
     }
 
     ///< Parse the response to get the y position.
     if ((posYStart = getCharPositionStr(response, 'Y')) != -1) {
         if ((posYEnd = getCharPositionStr(response, '.', posYStart))) {
-            coordinate.y = charToInt(response, posYStart + 1, posYEnd);
+            coordinate.y = typeManip.charToInt(response, posYStart + 1, posYEnd);
         }
     }
 
     ///< Parse the response to get the z position.
     if ((posZStart = getCharPositionStr(response, 'Z')) != -1) {
         if ((posZEnd = getCharPositionStr(response, '.', posZStart))) {
-            coordinate.z = charToInt(response, posZStart + 1, posZEnd);
+            coordinate.z = typeManip.charToInt(response, posZStart + 1, posZEnd);
         }
     }
 
@@ -131,8 +130,8 @@ Coordinate3D RobotArm::getPosition() {
 void RobotArm::executeAction(const char *newAction) {
     char command[15];
 
-    strcopy(command, newAction);
-    stradd(command, "\n");
+    typeManip.strcopy(command, newAction);
+    typeManip.stradd(command, "\n");
 
     sendGCodeToArm(command);
 }
@@ -147,25 +146,25 @@ void RobotArm::determineGCode(const Coordinate3D coordinates, int speed) {
     char coordinatesAsTextZ[10];
     char speedAsText[10];
 
-    intToChar(coordinates.x, coordinatesAsTextX);
-    intToChar(coordinates.y, coordinatesAsTextY);
-    intToChar(coordinates.z, coordinatesAsTextZ);
-    intToChar(speed, speedAsText);
+    typeManip.intToChar(coordinates.x, coordinatesAsTextX);
+    typeManip.intToChar(coordinates.y, coordinatesAsTextY);
+    typeManip.intToChar(coordinates.z, coordinatesAsTextZ);
+    typeManip.intToChar(speed, speedAsText);
 
-    strcopy(commandBuffer, "G0 X");
+    typeManip.strcopy(commandBuffer, "G0 X");
 
-    stradd(commandBuffer, coordinatesAsTextX);
+    typeManip.stradd(commandBuffer, coordinatesAsTextX);
 
-    stradd(commandBuffer, " Y");
-    stradd(commandBuffer, coordinatesAsTextY);
+    typeManip.stradd(commandBuffer, " Y");
+    typeManip.stradd(commandBuffer, coordinatesAsTextY);
 
-    stradd(commandBuffer, " Z");
-    stradd(commandBuffer, coordinatesAsTextZ);
+    typeManip.stradd(commandBuffer, " Z");
+    typeManip.stradd(commandBuffer, coordinatesAsTextZ);
 
-    stradd(commandBuffer, " F");
-    stradd(commandBuffer, speedAsText);
+    typeManip.stradd(commandBuffer, " F");
+    typeManip.stradd(commandBuffer, speedAsText);
 
-    stradd(commandBuffer, "\n");
+    typeManip.stradd(commandBuffer, "\n");
 }
 
 void RobotArm::determineGCode(const Actions action) {
@@ -245,57 +244,6 @@ bool RobotArm::isConnected() {
     return true;
 }
 
-char *RobotArm::stradd(char *dest, const char *src) {
-    size_t i = 0, j = 0;
-
-    for (i = 0; dest[i] != '\0'; i++) {
-    }
-
-    for (j = 0; src[j] != '\0'; j++) {
-        dest[i + j] = src[j];
-    }
-
-    dest[i + j] = '\0';
-    return dest;
-}
-
-char *RobotArm::strcopy(char *dest, const char *src) {
-    char *saved = dest;
-    while (*src) {
-        *dest++ = *src++;
-    }
-
-    *dest++ = '\0';
-
-    return saved;
-}
-
-char *RobotArm::intToChar(int number, char *dest) {
-    if ((number / 10) == 0) {
-        *dest++ = number + '0';
-        *dest = '\0';
-        return dest;
-    }
-
-    dest = intToChar(number / 10, dest);
-    *dest++ = (number % 10) + '0';
-    *dest = '\0';
-    return dest;
-}
-
-int RobotArm::charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const {
-    int result = 0;
-
-    for (unsigned int i = posStart; i < posEnd; i++) {
-        char digit = static_cast<char>(str[i] - '0');
-
-        result *= 10;
-        result += digit;
-    }
-
-    return result;
-}
-
 int RobotArm::getCharPositionStr(const char *str, const char search, const int searchStart) const {
     unsigned int strIndex = searchStart;
 
@@ -320,7 +268,6 @@ void RobotArm::emergencyStop() {
 
 void RobotArm::cancelEmergency(){
     emergencyStopped = false;
-    hwlib::cout << "joe joe" << hwlib::endl;
 }
 
 } // namespace RobotArm

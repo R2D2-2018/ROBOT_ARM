@@ -11,6 +11,7 @@
 #include "uart_lib.hpp"
 #include "wrap-hwlib.hpp"
 #include "queue.hpp"
+#include "type_manipulation.hpp"
 #include <cstring>
 
 namespace RobotArm {
@@ -65,7 +66,7 @@ class RobotArm {
      */
     hwlib::pin_in &emergencyButton;
 
-      /**
+    /**
      * @brief Button pin used to cancel the emergency stop.
      * 
      */
@@ -78,7 +79,16 @@ class RobotArm {
     Coordinate3D toGoPos;
 
     /**
-     * @brief Get the index of a character within a string.
+     * @brief Used for type manipulation, parsing Gcode strings, etc.
+     * 
+     * This class created is purely here because the STD variant doesn't work (libc is missing).
+     * 
+     */
+    TypeManipulation typeManip;
+
+
+    /**
+     * @brief Get the index of a character within a string/Gcode command.
      *
      * Optionally, the user can give a start position of the search.
      * Note that all strings must be null terminated!
@@ -180,30 +190,6 @@ class RobotArm {
     Coordinate3D getPosition();
 
     /**
-     * @brief intToChar function
-     *
-     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
-     * parameter
-     *
-     * @param x : int
-     * @param dest  : char *
-     * @return char*
-     */
-    char *intToChar(int x, char *dest);
-
-    /**
-     * @brief Convert a string to a integer.
-     *
-     * This method only strings containing integers, like "12345". We cast it to a 12345 integer.
-     *
-     * @param str Input string.
-     * @param posStart
-     * @param posEnd
-     * @return int char
-     */
-    int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
-
-    /**
      * @brief Receive Gcode string from the uArm Swift Pro using UART.
      *
      * We continuely poll the uArm Swift Pro for new serial data. If the read timeout is reached,
@@ -226,30 +212,6 @@ class RobotArm {
      * @return false Device is not connected.
      */
     bool isConnected();
-
-    /**
-     * @brief strcopy function
-     *
-     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcpy. dest = destination. src =
-     * source.
-     *
-     * @param dest : char *
-     * @param src : const char *
-     * @return char*
-     */
-    char *strcopy(char *dest, const char *src);
-
-    /**
-     * @brief stradd function
-     *
-     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcat. dest = destination. src =
-     * source.
-     *
-     * @param dest : char *
-     * @param src : const char *
-     * @return char*
-     */
-    char *stradd(char *dest, const char *src);
 
     /**
      * @brief Emergency stop function

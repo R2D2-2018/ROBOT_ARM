@@ -17,6 +17,7 @@ set (sources
     src/coordinate3d.cpp
     src/libc-stub.cpp
     src/robot_arm.cpp
+    src/type_manipulation.cpp
     ${uart_lib}/src/mock_uart.cpp
     ${uart_lib}/src/uart_connection.cpp
     src/wrap-hwlib.cpp
