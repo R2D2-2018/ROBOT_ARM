@@ -17,7 +17,7 @@ class TypeManipulation {
      * @param src : const char *
      * @return char*
      */
-    char *strcopy(char *dest, const char *src);
+    void *strcopy(char *dest, const char *src);
 
     /**
      * @brief stradd function
@@ -29,7 +29,7 @@ class TypeManipulation {
      * @param src : const char *
      * @return char*
      */
-    char *stradd(char *dest, const char *src);
+    void *stradd(char *dest, const char *src);
 
     /**
      * @brief intToChar function
@@ -41,7 +41,7 @@ class TypeManipulation {
      * @param dest  : char *
      * @return char*
      */
-    char *intToChar(int x, char *dest);
+    void *intToChar(int x, char *dest);
 
     /**
      * @brief Convert a string to a integer.

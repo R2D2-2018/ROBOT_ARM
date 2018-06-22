@@ -2,7 +2,7 @@
 #define TEST_TYPE_MANIPULATION
 
 #include "catch.hpp"
-#include "../src/type_manipulation.hpp"
+#include "type_manipulation.hpp"
 
 RobotArm::TypeManipulation typeManip;
 

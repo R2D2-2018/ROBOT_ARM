@@ -9,8 +9,8 @@
 #define TEST_MOVE_QUEUE
 
 #include "catch.hpp"
-#include "../src/queue.hpp"
-#include "../src/coordinate3d.hpp"
+#include "queue.hpp"
+#include "coordinate3d.hpp"
 
 const int queueSize = 250;
 Queue<RobotArm::Coordinate3D, queueSize> queue;

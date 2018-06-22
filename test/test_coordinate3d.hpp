@@ -9,7 +9,7 @@
 #define TEST_COORDINATE_3D
 
 #include "catch.hpp"
-#include "../src/coordinate3d.hpp"
+#include "coordinate3d.hpp"
 
 TEST_CASE("Coordinate3D get coord positive") {
     RobotArm::Coordinate3D coord(140, 150, 130);
@@ -93,7 +93,7 @@ TEST_CASE("Compare two Coordinate3D objects") {
     RobotArm::Coordinate3D coord(10, 20, 30);
     RobotArm::Coordinate3D coord2(10, 20, 30);
 
-    //REQUIRE(coord == RobotArm::Coordinate3D(10, 20, 30));
+    // The test for a != operator
     REQUIRE_FALSE((coord != coord2));
 }
 
