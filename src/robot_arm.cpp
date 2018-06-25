@@ -34,7 +34,7 @@ void RobotArm::loop() {
         emergencyStop();
         return;
     }
-
+    
     ///< If we are still not at our target position, move...
     if (toGoPos != Coordinate3D(0, 0, 0)) {
         Coordinate3D curPos = getPosition();
@@ -81,11 +81,13 @@ void RobotArm::loop() {
 }
 
 void RobotArm::move(Coordinate3D coordinates, unsigned int newSpeed) {
-    speed = newSpeed;
+    if(inputValid(coordinates)){
+            speed = newSpeed;
     determineGCode(coordinates, speed);
 
     ///< Push a new move action to the move queue.
     moveQueue.push(coordinates);
+    }
 }
 
 Coordinate3D RobotArm::getPosition() {
@@ -125,7 +127,6 @@ Coordinate3D RobotArm::getPosition() {
             coordinate.z = typeManip.charToInt(response, posZStart + 1, posZEnd);
         }
     }
-
     return coordinate;
 }
 
@@ -258,11 +259,9 @@ int16_t RobotArm::getCharPositionStr(const char *str, const char search, const u
         if (*strSearchStart == search) {
             return strIndex;
         }
-
         strSearchStart++;
         strIndex++;
     }
-
     return -1;
 }
 
@@ -275,4 +274,12 @@ void RobotArm::cancelEmergency() {
     emergencyStopped = false;
 }
 
+bool RobotArm::inputValid(const Coordinate3D coordinates){
+    if((coordinates.x >= 0 && coordinates.x <= 277) && (coordinates.y >= -230 && coordinates.y <= 230) && (coordinates.z >= -45 && coordinates.z <= 130)){
+        return true;
+        }
+    else{  
+    return false;
+    } 
+}
 } // namespace RobotArm
