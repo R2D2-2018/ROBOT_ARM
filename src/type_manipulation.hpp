@@ -51,7 +51,7 @@ class TypeManipulation {
      *
      * @param x Unsigned integer to convert.
      * @param dest String pointer.
-     * @return void
+     * @return char* Converted integer.
      */
     char *intToChar(unsigned int x, char *dest);
 
