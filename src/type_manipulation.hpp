@@ -15,7 +15,7 @@ class TypeManipulation {
      *
      * @param Destination string.
      * @param Source string.
-     * @return void
+     * @return char* Copied string.
      */
     char *strcopy(char *dest, const char *src);
 
@@ -27,7 +27,7 @@ class TypeManipulation {
      *
      * @param Destination string.
      * @param Source string.
-     * @return void
+     * @return char* Appended string.
      */
     char *stradd(char *dest, const char *src);
 
@@ -39,7 +39,7 @@ class TypeManipulation {
      *
      * @param x Signed integer to convert.
      * @param dest String pointer.
-     * @return void
+     * @return char* Converted integer.
      */
     char *intToChar(signed int x, char *dest);
 
