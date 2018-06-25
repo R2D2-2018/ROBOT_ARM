@@ -30,11 +30,11 @@ TEST_CASE("Convert integer to char *") {
 }
 
 TEST_CASE("Convert char * to integer") {
-    char buffer[4] = "100";
-
-    int val = typeManip.charToInt(buffer, 0, 3);
+    signed int val = typeManip.charToInt("100", 0, 3);
+    signed int val2 = typeManip.charToInt("-100", 0, 4);
 
     REQUIRE(val == 100);
+    REQUIRE(val2 == -100);
 }
 
 #endif
