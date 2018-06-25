@@ -34,26 +34,38 @@ class TypeManipulation {
     /**
      * @brief intToChar function
      *
-     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
-     * parameter
+     * This function takes an signed integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
+     * parameter. If the integer is negative, the representing character will be signed.
      *
-     * @param x Integer to convert.
+     * @param x Signed integer to convert.
      * @param dest String pointer.
      * @return void
      */
-    char *intToChar(int x, char *dest);
+    char *intToChar(signed int x, char *dest);
 
     /**
-     * @brief Convert a string to a integer.
+     * @brief intToChar function
      *
-     * This method only strings containing integers, like "12345". We cast it to a 12345 integer.
+     * This function takes an unsigned integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
+     * parameter.
+     *
+     * @param x Unsigned integer to convert.
+     * @param dest String pointer.
+     * @return void
+     */
+    char *intToChar(unsigned int x, char *dest);
+
+    /**
+     * @brief Convert a string to a signed integer.
+     *
+     * This method only strings containing integers, like "-12345". We cast it to a -12345 integer.
      *
      * @param str Input string.
      * @param posStart
      * @param posEnd
      * @return int Converted string.
      */
-    int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
+    signed int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
 };
 
 } // namespace RobotArm
