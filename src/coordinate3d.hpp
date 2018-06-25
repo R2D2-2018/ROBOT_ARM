@@ -15,7 +15,7 @@ struct Coordinate3D {
      * @brief Parameters describing a three dimensional location within space.
      *
      */
-    int x, y, z;
+    signed int x, y, z;
 
     /**
      * @brief Construct a new Coordinate3D object
