@@ -13,11 +13,11 @@ class TypeManipulation {
      * This function is purely here because the STD variant doesn't work. It's a literal copy of strcpy. dest = destination. src =
      * source.
      *
-     * @param dest : char *
-     * @param src : const char *
-     * @return char*
+     * @param Destination string.
+     * @param Source string.
+     * @return void
      */
-    void *strcopy(char *dest, const char *src);
+    char *strcopy(char *dest, const char *src);
 
     /**
      * @brief stradd function
@@ -25,11 +25,11 @@ class TypeManipulation {
      * This function is purely here because the STD variant doesn't work. It's a literal copy of strcat. dest = destination. src =
      * source.
      *
-     * @param dest : char *
-     * @param src : const char *
-     * @return char*
+     * @param Destination string.
+     * @param Source string.
+     * @return void
      */
-    void *stradd(char *dest, const char *src);
+    char *stradd(char *dest, const char *src);
 
     /**
      * @brief intToChar function
@@ -37,11 +37,11 @@ class TypeManipulation {
      * This function takes an integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
      * parameter
      *
-     * @param x : int
-     * @param dest  : char *
-     * @return char*
+     * @param x Integer to convert.
+     * @param dest String pointer.
+     * @return void
      */
-    void *intToChar(int x, char *dest);
+    char *intToChar(int x, char *dest);
 
     /**
      * @brief Convert a string to a integer.
@@ -51,7 +51,7 @@ class TypeManipulation {
      * @param str Input string.
      * @param posStart
      * @param posEnd
-     * @return int char
+     * @return int Converted string.
      */
     int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
 };

@@ -1,7 +1,7 @@
 #include "type_manipulation.hpp"
 
 namespace RobotArm {
-void *TypeManipulation::stradd(char *dest, const char *src) {
+char *TypeManipulation::stradd(char *dest, const char *src) {
     size_t i = 0, j = 0;
 
     for (i = 0; dest[i] != '\0'; i++) {
@@ -12,21 +12,22 @@ void *TypeManipulation::stradd(char *dest, const char *src) {
     }
 
     dest[i + j] = '\0';
+
     return dest;
 }
 
-void *TypeManipulation::strcopy(char *dest, const char *src) {
+char *TypeManipulation::strcopy(char *dest, const char *src) {
     char *saved = dest;
     while (*src) {
         *dest++ = *src++;
     }
-    
+
     *dest++ = '\0';
 
     return saved;
 }
 
-void *TypeManipulation::intToChar(int number, char *dest) {
+char *TypeManipulation::intToChar(int number, char *dest) {
     if ((number / 10) == 0) {
         *dest++ = number + '0';
         *dest = '\0';

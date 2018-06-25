@@ -6,8 +6,8 @@
  */
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
 
-#include "robot_arm.hpp"
 #include "mock_uart.hpp"
+#include "robot_arm.hpp"
 
 #include "catch.hpp"
 ///< Tests for Coordinate3D ADT.
@@ -21,7 +21,6 @@ UARTLib::MockUART comm(115200);
 hwlib::test::pin_in<8> testPinEmergency{1, 0, 1, 0, 1, 0, 1, 1};
 hwlib::test::pin_in<8> testPinCancelEmergency{1, 0, 1, 0, 1, 0, 1, 1};
 RobotArm::RobotArm uarmSwiftPro(comm, testPinEmergency, testPinCancelEmergency);
-
 
 TEST_CASE("RobotArm emergency trigger") {
     REQUIRE(!uarmSwiftPro.isEmergencyStopped());
