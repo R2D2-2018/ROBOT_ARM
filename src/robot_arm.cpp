@@ -8,8 +8,10 @@
 
 namespace RobotArm {
 
-RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton) 
-: uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), cancelEmergencyButton(cancelEmergencyButton), toGoPos(0, 0, 0){}
+RobotArm::RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton)
+    : uartConn(conn), emergencyStopped(false), emergencyButton(emergencyButton), cancelEmergencyButton(cancelEmergencyButton),
+      toGoPos(0, 0, 0) {
+}
 
 inline void RobotArm::sendGCodeToArm(const char *command) {
     if (emergencyStopped == false) {
@@ -21,7 +23,7 @@ void RobotArm::loop() {
     ///< If we are in a emergency, we stop any arm activity.
     if (emergencyStopped) {
         ///< If the noEmergency button is pressed we continue the arm movement.
-        if (!cancelEmergencyButton.get()){
+        if (!cancelEmergencyButton.get()) {
             cancelEmergency();
         }
         return;
@@ -48,7 +50,7 @@ void RobotArm::loop() {
         if (toGoPos.y > 0) {
             curPos.y++;
             toGoPos.y--;
-        } else if(toGoPos.y < 0) {
+        } else if (toGoPos.y < 0) {
             curPos.y--;
             toGoPos.y++;
         }
@@ -61,7 +63,6 @@ void RobotArm::loop() {
             toGoPos.z++;
         }
 
-
         determineGCode(curPos, speed);
         sendGCodeToArm(commandBuffer);
         ///< Little wait to prevent serial flooding.
@@ -73,7 +74,7 @@ void RobotArm::loop() {
         }
     } else {
         if (moveQueue.count() > 0) {
-            ///< New item available in the move queue, set it at our target position.
+            ///< New item available in the move queue, set it at our new target position.
             toGoPos = moveQueue.pop() - getPosition();
         }
     }
@@ -184,9 +185,9 @@ int RobotArm::getSpeed() {
     return speed;
 }
 
-int RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout) {
+uint16_t RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout) {
     bool receivingData = true;
-    unsigned int responseCharCounter = 0;
+    uint16_t responseCharCounter = 0;
     char byteRead = 0;
 
     ///< Convert to microseconds
@@ -235,22 +236,21 @@ int RobotArm::receiveGcodeResponse(char *response, size_t responseSize, unsigned
 }
 
 bool RobotArm::isConnected() {
+    ///< The following commands receives the software version running on the uArm.
+    ///< Example: $n ok V3.2\n.
     sendGCodeToArm("#n P2203\n");
 
     ///< By giving a null pointer as a method parameter, we save unnecessarily memory space.
-    if (!receiveGcodeResponse(nullptr, 255)) {
-        return false;
-    }
-
-    return true;
+    ///< If the response is larger than 4 ($n ok), we consider the response valid (and thus conclude that the arm is connected).
+    return (receiveGcodeResponse(nullptr, 255) > 4);
 }
 
 bool RobotArm::isEmergencyStopped() {
     return emergencyStopped;
 }
 
-int RobotArm::getCharPositionStr(const char *str, const char search, const int searchStart) const {
-    unsigned int strIndex = searchStart;
+int16_t RobotArm::getCharPositionStr(const char *str, const char search, const uint16_t searchStart) const {
+    uint16_t strIndex = searchStart;
 
     const char *strSearchStart = str + searchStart;
 
@@ -271,7 +271,7 @@ void RobotArm::emergencyStop() {
     emergencyStopped = true;
 }
 
-void RobotArm::cancelEmergency(){
+void RobotArm::cancelEmergency() {
     emergencyStopped = false;
 }
 
