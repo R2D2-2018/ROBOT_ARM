@@ -95,9 +95,9 @@ class RobotArm {
      * @param str Search string.
      * @param search Character to search.
      * @param searchStart Start index of the search.
-     * @return int Index position.
+     * @return int16_t Index position.
      */
-    int getCharPositionStr(const char *str, const char search, const int searchStart = 0) const;
+    int16_t getCharPositionStr(const char *str, const char search, const uint16_t searchStart = 0) const;
 
   public:
     /**
@@ -131,7 +131,7 @@ class RobotArm {
 
     /**
      * @brief Execute a action upon the arm.
-     * 
+     *
      * Actions are available with in the Actions enum.
      *
      * @param action Action to perform.
@@ -199,9 +199,9 @@ class RobotArm {
      * @param response Gcode response string.
      * @param responseSize Gcode response string size.
      * @param readTimeout UART receiver timeout in milliseconds.
-     * @return int Amount of character read (including \0).
+     * @return uint16_t Amount of character read (including \0).
      */
-    int receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout = 50);
+    uint16_t receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout = 50);
 
     /**
      * @brief Check if the uArm Swift Pro is connected.
@@ -215,7 +215,7 @@ class RobotArm {
 
     /**
      * @brief Check if the uArm Swift Pro is emergency stopped.
-     * 
+     *
      * @return true Emergency stopped.
      * @return false Not emergency stopped.
      */
