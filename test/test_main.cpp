@@ -29,3 +29,11 @@ TEST_CASE("RobotArm emergency trigger") {
 
     REQUIRE(uarmSwiftPro.isEmergencyStopped());
 }
+
+TEST_CASE("RobotArm is coordinate valid") {
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(0, 0, 0)) == true);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(200, 130, 125)) == true);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(200, 130, 50)) == true);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(200, 200, -9999)) == false);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(999, 999, 50)) == false);
+}

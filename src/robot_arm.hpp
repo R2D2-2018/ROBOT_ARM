@@ -234,6 +234,14 @@ class RobotArm {
      * This function can be called to cancel the emergency.
      */
     void cancelEmergency();
+
+    /**
+     * @brief Input validation
+     * 
+     * @return true input valid
+     * @return flase input invalid
+     */
+    bool inputValid(const Coordinate3D coordinates);
 };
 } // namespace RobotArm
 

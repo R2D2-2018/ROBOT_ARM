@@ -37,10 +37,10 @@ int main() {
     hwlib::wait_ms(2000);
 
     ///< Do some moving.
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 100, 100), 5000);
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 200, 150), 5000);
-    uarmSwiftPro.move(RobotArm::Coordinate3D(50, 200, 280), 5000);
-    uarmSwiftPro.move(RobotArm::Coordinate3D(100, 100, 100), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(200, 130, 125), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(20, 290, 150), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(200, 130, 50), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(200, -290, 50), 5000);
 
     while (true) {
         uarmSwiftPro.loop();
