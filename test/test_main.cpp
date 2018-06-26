@@ -1,73 +1,39 @@
 /**
  * @file
  * @brief     Test file
- * @author    Jeroen van Hattem
+ * @author    Jeroen van Hattem, Wiebe van Breukelen
  * @license   MIT
  */
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
-#include "../src/coordinate3d.hpp"
-#include "../src/robot_arm.hpp"
+
+#include "mock_uart.hpp"
+#include "robot_arm.hpp"
 
 #include "catch.hpp"
+///< Tests for Coordinate3D ADT.
+#include "test_coordinate3d.hpp"
+///< Tests for movement queue.
+#include "test_move_queue.hpp"
+///< Tests for type manipulation.
+#include "test_type_manipulation.hpp"
 
-RobotArm uarmSwiftPro;
-char text[100];
+UARTLib::MockUART comm(115200);
+hwlib::test::pin_in<8> testPinEmergency{1, 0, 1, 0, 1, 0, 1, 1};
+hwlib::test::pin_in<8> testPinCancelEmergency{1, 0, 1, 0, 1, 0, 1, 1};
+RobotArm::RobotArm uarmSwiftPro(comm, testPinEmergency, testPinCancelEmergency);
 
-TEST_CASE("Append char* with another char*") {
-    uarmSwiftPro.stradd(text, "how are you?");
+TEST_CASE("RobotArm emergency trigger") {
+    REQUIRE(!uarmSwiftPro.isEmergencyStopped());
 
-    REQUIRE(text == "Hi, how are you?");
+    uarmSwiftPro.emergencyStop();
+
+    REQUIRE(uarmSwiftPro.isEmergencyStopped());
 }
 
-TEST_CASE("Copy char* to another char *") {
-    uarmSwiftPro.strcopy(text, "Hi, ");
-
-    REQUIRE(text == "Hi, ");
-}
-
-TEST_CASE("Convert integer to char *") {
-    int x = 100;
-    char buffer[5];
-
-    uarmSwiftPro.intToChar(x, buffer);
-
-    REQUIRE(buffer == "100");
-}
-
-TEST_CASE("Coordinates 3D get coordinates positive") {
-    Coordinate3D coordinates(140, 150, 130);
-
-    REQUIRE(coordinates.getX() == 140);
-    REQUIRE(coordinates.getY() == 150);
-    REQUIRE(coordinates.getZ() == 130);
-}
-
-TEST_CASE("Coordinates 3D get coordinates negative") {
-    Coordinate3D coordinates(-140, -150, -130);
-
-    REQUIRE(coordinates.getX() == -140);
-    REQUIRE(coordinates.getY() == -150);
-    REQUIRE(coordinates.getZ() == -130);
-}
-
-TEST_CASE("Coordinates 3D set coordinates positive") {
-    Coordinate3D coordinates;
-    coordinates.setX(140);
-    coordinates.setY(150);
-    coordinates.setZ(130);
-
-    REQUIRE(coordinates.getX() == 140);
-    REQUIRE(coordinates.getY() == 150);
-    REQUIRE(coordinates.getZ() == 130);
-}
-
-TEST_CASE("Coordinates 3D set coordinates negative") {
-    Coordinate3D coordinates;
-    coordinates.setX(-140);
-    coordinates.setY(-150);
-    coordinates.setZ(-130);
-
-    REQUIRE(coordinates.getX() == -140);
-    REQUIRE(coordinates.getY() == -150);
-    REQUIRE(coordinates.getZ() == -130);
+TEST_CASE("RobotArm is coordinate valid") {
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(0, 0, 0)) == true);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(200, 130, 125)) == true);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(200, 130, 50)) == true);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(200, 200, -9999)) == false);
+    REQUIRE(uarmSwiftPro.inputValid(RobotArm::Coordinate3D(999, 999, 50)) == false);
 }

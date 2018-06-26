@@ -7,40 +7,43 @@
 
 #include "coordinate3d.hpp"
 #include "robot_arm.hpp"
-#include "uart_connection.hpp"
+#include "uart_lib.hpp"
 #include "wrap-hwlib.hpp"
+
+namespace target = hwlib::target;
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
     hwlib::wait_ms(1000);
 
-    RobotArm::RobotArm uarmSwiftPro;
+    target::pin_in emergencyButton = target::pin_in(target::pins::d50);
+    target::pin_in cancelEmergencyButton = target::pin_in(target::pins::d12);
 
-    /// Check if the arm is connected.
+    UARTLib::HardwareUART conn(115200, UARTLib::UARTController::ONE);
+    RobotArm::RobotArm uarmSwiftPro(conn, emergencyButton, cancelEmergencyButton);
+
+    ///< Check if the arm is connected.
     if (!uarmSwiftPro.isConnected()) {
         hwlib::cout << "Please connect the uArm Swift Pro" << hwlib::endl;
 
-        /// Wait until the arm is connected using a UART connection.
+        ///< Wait until the arm is connected using a UART connection.
         while (!uarmSwiftPro.isConnected())
             hwlib::wait_ms(200);
     }
 
     hwlib::cout << "uArm Swift Pro is connected!" << hwlib::endl;
 
-    /// Little delay to let the uArm Swift Pro boot properly.
+    ///< Little delay to let the uArm Swift Pro boot properly.
     hwlib::wait_ms(2000);
 
-    /// Move the arm to a 3D coordinate.
-    uarmSwiftPro.move(RobotArm::Coordinate3D(200, 200, 100), 5000);
+    ///< Do some moving.
+    uarmSwiftPro.move(RobotArm::Coordinate3D(200, 130, 125), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(20, 290, 150), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(200, 130, 50), 5000);
+    uarmSwiftPro.move(RobotArm::Coordinate3D(200, -290, 50), 5000);
 
     while (true) {
-        hwlib::wait_ms(500);
-
-        /// Receive the position.
-        RobotArm::Coordinate3D coordinate = uarmSwiftPro.getPosition();
-
-        /// Display the position.
-        hwlib::cout << coordinate.x << ", " << coordinate.y << ", " << coordinate.z << hwlib::endl;
+        uarmSwiftPro.loop();
     }
 
     return 0;

@@ -8,7 +8,9 @@
 #define ROBOTARM_HPP
 
 #include "coordinate3d.hpp"
-#include "uart_connection.hpp"
+#include "queue.hpp"
+#include "type_manipulation.hpp"
+#include "uart_lib.hpp"
 #include "wrap-hwlib.hpp"
 #include <cstring>
 
@@ -35,6 +37,12 @@ class RobotArm {
     char commandBuffer[25];
 
     /**
+     * @brief Queue containing arm move actions.
+     *
+     */
+    Queue<Coordinate3D, 50> moveQueue;
+
+    /**
      * @brief Arm motors speed.
      *
      */
@@ -44,10 +52,42 @@ class RobotArm {
      * @brief UART connection library instance.
      *
      */
-    UARTConnection uartConn;
+    UARTLib::UARTConnection &uartConn;
 
     /**
-     * @brief Get the index of a character within a string.
+     * @brief bool to set the emergency stop
+     *
+     */
+    bool emergencyStopped;
+
+    /**
+     * @brief Button pin used for emergency stop.
+     *
+     */
+    hwlib::pin_in &emergencyButton;
+
+    /**
+     * @brief Button pin used to cancel the emergency stop.
+     *
+     */
+    hwlib::pin_in &cancelEmergencyButton;
+
+    /**
+     * @brief Arm target position.
+     *
+     */
+    Coordinate3D toGoPos;
+
+    /**
+     * @brief Used for type manipulation, parsing Gcode strings, etc.
+     *
+     * This class created is purely here because the STD variant doesn't work (libc is missing).
+     *
+     */
+    TypeManipulation typeManip;
+
+    /**
+     * @brief Get the index of a character within a string/Gcode command.
      *
      * Optionally, the user can give a start position of the search.
      * Note that all strings must be null terminated!
@@ -55,9 +95,9 @@ class RobotArm {
      * @param str Search string.
      * @param search Character to search.
      * @param searchStart Start index of the search.
-     * @return int Index position.
+     * @return int16_t Index position.
      */
-    int getCharPositionStr(const char *str, const char search, const int searchStart = 0) const;
+    int16_t getCharPositionStr(const char *str, const char search, const uint16_t searchStart = 0) const;
 
   public:
     /**
@@ -66,7 +106,7 @@ class RobotArm {
      * The default constructor to create a new RobootArm object.
      *
      */
-    RobotArm();
+    RobotArm(UARTLib::UARTConnection &conn, hwlib::pin_in &emergencyButton, hwlib::pin_in &cancelEmergencyButton);
 
     /**
      * @brief Move the arm to a new setpoint.
@@ -78,9 +118,20 @@ class RobotArm {
      * @param speed Motor speed to reach Coordinate3D.
      */
     void move(const Coordinate3D coordinates, unsigned int newSpeed);
+
+    /**
+     * @brief Loop action.
+     *
+     * This method will check if we are currently performing a arm movement, and if so, increase/decrease
+     * the arm position to get closer to the target position.
+     * If we are not doing a arm movement, we check if there is one available in the queue.
+     *
+     */
+    void loop();
+
     /**
      * @brief Execute a action upon the arm.
-     * 
+     *
      * Actions are available with in the Actions enum.
      *
      * @param action Action to perform.
@@ -93,7 +144,7 @@ class RobotArm {
      *
      * @param command G-Code command in the form of a string.
      */
-    void sendGCodeToArm(const char *command);
+    inline void sendGCodeToArm(const char *command);
 
     /**
      * @brief Execute a desired action by sending the G-Code.
@@ -140,30 +191,6 @@ class RobotArm {
     Coordinate3D getPosition();
 
     /**
-     * @brief intToChar function
-     *
-     * This function takes an integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
-     * parameter
-     *
-     * @param x : int
-     * @param dest  : char *
-     * @return char*
-     */
-    char *intToChar(int x, char *dest);
-
-    /**
-     * @brief Convert a string to a integer.
-     *
-     * This method only strings containing integers, like "12345". We cast it to a 12345 integer.
-     *
-     * @param str Input string.
-     * @param posStart Start position to start converting.
-     * @param posEnd End position to stop converting.
-     * @return int char Result.
-     */
-    int charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const;
-
-    /**
      * @brief Receive Gcode string from the uArm Swift Pro using UART.
      *
      * We continuely poll the uArm Swift Pro for new serial data. If the read timeout is reached,
@@ -172,9 +199,9 @@ class RobotArm {
      * @param response Gcode response string.
      * @param responseSize Gcode response string size.
      * @param readTimeout UART receiver timeout in milliseconds.
-     * @return int Amount of character read (including \0).
+     * @return uint16_t Amount of character read (including \0).
      */
-    int receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout = 50);
+    uint16_t receiveGcodeResponse(char *response, size_t responseSize, unsigned int readTimeout = 50);
 
     /**
      * @brief Check if the uArm Swift Pro is connected.
@@ -187,30 +214,35 @@ class RobotArm {
     bool isConnected();
 
     /**
-     * @brief strcopy function
+     * @brief Check if the uArm Swift Pro is emergency stopped.
      *
-     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcpy. dest = destination. src =
-     * source.
-     *
-     * @param dest : char *
-     * @param src : const char *
-     * @return char*
+     * @return true Emergency stopped.
+     * @return false Not emergency stopped.
      */
-    char *strcopy(char *dest, const char *src);
+    bool isEmergencyStopped();
 
     /**
-     * @brief stradd function
+     * @brief Emergency stop function
      *
-     * This function is purely here because the STD variant doesn't work. It's a literal copy of strcat. dest = destination. src =
-     * source.
-     *
-     * @param dest : char *
-     * @param src : const char *
-     * @return char*
+     * This function can be called to make a emergency stop
      */
-    char *stradd(char *dest, const char *src);
-};
+    void emergencyStop();
 
+    /**
+     * @brief No Emergency function.
+     *
+     * This function can be called to cancel the emergency.
+     */
+    void cancelEmergency();
+
+    /**
+     * @brief Input validation
+     * 
+     * @return true input valid
+     * @return flase input invalid
+     */
+    bool inputValid(const Coordinate3D coordinates);
+};
 } // namespace RobotArm
 
 #endif // ROBOTARM_HPP
