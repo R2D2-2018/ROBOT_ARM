@@ -275,11 +275,7 @@ void RobotArm::cancelEmergency() {
 }
 
 bool RobotArm::inputValid(const Coordinate3D coordinates){
-    if((coordinates.x >= 0 && coordinates.x <= 277) && (coordinates.y >= -230 && coordinates.y <= 230) && (coordinates.z >= -45 && coordinates.z <= 130)){
-        return true;
-        }
-    else{  
-    return false;
-    } 
+    return ((coordinates.x >= 0 && coordinates.x <= 277) && (coordinates.y >= -230 && coordinates.y <= 230) && (coordinates.z >= -45 && coordinates.z <= 130));
 }
+
 } // namespace RobotArm
