@@ -40,7 +40,7 @@ char *TypeManipulation::intToChar(unsigned int number, char *dest) {
     return dest;
 }
 
-char* TypeManipulation::intToChar(signed int number, char *dest) {
+char *TypeManipulation::intToChar(signed int number, char *dest) {
     if (number < 0) {
         *dest = '-';
         dest++;

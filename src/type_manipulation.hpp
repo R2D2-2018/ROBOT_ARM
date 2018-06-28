@@ -34,8 +34,8 @@ class TypeManipulation {
     /**
      * @brief intToChar function
      *
-     * This function takes an signed integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
-     * parameter. If the integer is negative, the representing character will be signed.
+     * This function takes an signed integer number and converts it to a char *. The char * will be stored in the
+     * 'dest'(destination) parameter. If the integer is negative, the representing character will be signed.
      *
      * @param x Signed integer to convert.
      * @param dest String pointer.
@@ -46,8 +46,8 @@ class TypeManipulation {
     /**
      * @brief intToChar function
      *
-     * This function takes an unsigned integer number and converts it to a char *. The char * will be stored in the 'dest'(destination)
-     * parameter.
+     * This function takes an unsigned integer number and converts it to a char *. The char * will be stored in the
+     * 'dest'(destination) parameter.
      *
      * @param x Unsigned integer to convert.
      * @param dest String pointer.

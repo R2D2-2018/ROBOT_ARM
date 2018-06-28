@@ -69,6 +69,13 @@ TEST_CASE("Coordinate3D substract -=") {
     REQUIRE(coord.z == 20);
 }
 
+TEST_CASE("Coordinate3D equal ==") {
+    RobotArm::Coordinate3D coord1(10, 10, 10);
+    RobotArm::Coordinate3D coord2(10, 10, 10);
+
+    REQUIRE(coord1 == coord2);
+}
+
 TEST_CASE("Coordinate3D + Coordinate3D") {
     RobotArm::Coordinate3D coord(150, 40, 30);
 

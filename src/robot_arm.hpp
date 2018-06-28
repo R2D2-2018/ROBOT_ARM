@@ -75,6 +75,7 @@ class RobotArm {
     /**
      * @brief Arm target position.
      *
+     * toGoPos is a delta which the arm will move towards.
      */
     Coordinate3D toGoPos;
 
@@ -237,7 +238,7 @@ class RobotArm {
 
     /**
      * @brief Input validation
-     * 
+     *
      * @return true input valid
      * @return flase input invalid
      */

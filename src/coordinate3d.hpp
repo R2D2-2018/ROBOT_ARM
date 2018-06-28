@@ -72,7 +72,7 @@ struct Coordinate3D {
      * @param coord Coordinate rhs.
      * @return bool ==
      */
-    bool operator==(const Coordinate3D &rhs);
+    bool operator==(const Coordinate3D &rhs) const;
 
     /**
      * @brief Used to compare coordinates.

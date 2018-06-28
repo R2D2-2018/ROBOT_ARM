@@ -42,7 +42,7 @@ Coordinate3D Coordinate3D::operator-(const Coordinate3D &coord) const {
     return newCoord;
 }
 
-bool Coordinate3D::operator==(const Coordinate3D &rhs) {
+bool Coordinate3D::operator==(const Coordinate3D &rhs) const {
     return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
 }
 
