@@ -11,7 +11,7 @@
 
 #include "catch.hpp"
 ///< Tests for Coordinate3D ADT.
-#include "test_coordinate3d.hpp"
+//#include "test_coordinate3d.hpp"
 ///< Tests for movement queue.
 #include "test_move_queue.hpp"
 ///< Tests for type manipulation.
