@@ -149,10 +149,10 @@ void RobotArm::determineGCode(const Coordinate3D coordinates, int speed) {
     char coordinatesAsTextZ[10];
     char speedAsText[10];
 
-    typeManip.intToChar(coordinates.x, coordinatesAsTextX);
-    typeManip.intToChar(coordinates.y, coordinatesAsTextY);
-    typeManip.intToChar(coordinates.z, coordinatesAsTextZ);
-    typeManip.intToChar(speed, speedAsText);
+    typeManip.intToString(coordinates.x, coordinatesAsTextX);
+    typeManip.intToString(coordinates.y, coordinatesAsTextY);
+    typeManip.intToString(coordinates.z, coordinatesAsTextZ);
+    typeManip.intToString(speed, speedAsText);
 
     typeManip.strcopy(commandBuffer, "G0 X");
 

@@ -24,7 +24,7 @@ TEST_CASE("Convert integer to char *") {
     int x = 100;
     char buffer[4];
 
-    typeManip.intToChar(x, buffer);
+    typeManip.intToString(x, buffer);
 
     REQUIRE_THAT(buffer, Catch::Matchers::Equals("100"));
 }

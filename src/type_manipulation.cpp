@@ -27,20 +27,20 @@ char *TypeManipulation::strcopy(char *dest, const char *src) {
     return saved;
 }
 
-char *TypeManipulation::intToChar(unsigned int number, char *dest) {
+char *TypeManipulation::intToString(unsigned int number, char *dest) {
     if ((number / 10) == 0) {
         *dest++ = number + '0';
         *dest = '\0';
         return dest;
     }
 
-    dest = intToChar(number / 10, dest);
+    dest = intToString(number / 10, dest);
     *dest++ = (number % 10) + '0';
     *dest = '\0';
     return dest;
 }
 
-char *TypeManipulation::intToChar(signed int number, char *dest) {
+char *TypeManipulation::intToString(signed int number, char *dest) {
     if (number < 0) {
         *dest = '-';
         dest++;
@@ -48,7 +48,7 @@ char *TypeManipulation::intToChar(signed int number, char *dest) {
         number *= -1;
     }
 
-    return intToChar(static_cast<unsigned int>(number), dest);
+    return intToString(static_cast<unsigned int>(number), dest);
 }
 
 signed int TypeManipulation::charToInt(const char *str, const unsigned int posStart, const unsigned int posEnd) const {

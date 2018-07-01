@@ -32,7 +32,7 @@ class TypeManipulation {
     char *stradd(char *dest, const char *src);
 
     /**
-     * @brief intToChar function
+     * @brief intToString function
      *
      * This function takes an signed integer number and converts it to a char *. The char * will be stored in the
      * 'dest'(destination) parameter. If the integer is negative, the representing character will be signed.
@@ -41,10 +41,10 @@ class TypeManipulation {
      * @param dest String pointer.
      * @return char* Converted integer.
      */
-    char *intToChar(signed int x, char *dest);
+    char *intToString(signed int x, char *dest);
 
     /**
-     * @brief intToChar function
+     * @brief intToString function
      *
      * This function takes an unsigned integer number and converts it to a char *. The char * will be stored in the
      * 'dest'(destination) parameter.
@@ -53,7 +53,7 @@ class TypeManipulation {
      * @param dest String pointer.
      * @return char* Converted integer.
      */
-    char *intToChar(unsigned int x, char *dest);
+    char *intToString(unsigned int x, char *dest);
 
     /**
      * @brief Convert a string to a signed integer.
